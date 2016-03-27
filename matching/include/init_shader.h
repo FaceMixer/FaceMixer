@@ -28,6 +28,6 @@ char *ReadShaderSource(const char *shader_file);
 // Helper function to load vertex and fragment shader files
 GLuint InitShader(const char* v_shader_file, const char* f_shader_file);
 
-} // namespace angle
+}  // namespace angle
 
 #endif  // SMFVIEW_INIT_SHADER_H_

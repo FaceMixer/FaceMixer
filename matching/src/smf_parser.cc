@@ -217,44 +217,26 @@ void ExportMeshFile() {
 
         ofstream fout("mesh/" + file_path, ofstream::out);
 
-        if (!fout.is_open()) {      // Check if output file created
+        if (!fout.is_open()) {          // Check if output file created
             cout << "Output file create failed!" << endl;
             export_semaphore = libconsts::kExportLockOff;
             return;
         }
 
-        int extra_vertex = 0;
-        int extra_face = 0;
-        vector<int> extra_prefix;
-
-        for (auto vertex : mesh_vertex) {
-            if (vertex->render_flag == 1) extra_vertex++;
-            extra_prefix.push_back(extra_vertex);
-        }
-
-        for (auto face : mesh_faces)
-            if (face->render_flag == 1) extra_face++;
-
         // The vertex size and faces size
-        fout << "# " << mesh_vertex.size() - extra_vertex << " " << mesh_faces.size() - extra_face << endl;
+        fout << "# " << mesh_vertex.size() << " " << mesh_faces.size() << endl;
 
         // information
         fout << "# Created by Armour on 2016" << endl;
         fout << "# Copyright (c) 2016 Armour. All rights reserved." << endl;
         fout << endl;
 
-        for (auto vertex : mesh_vertex) {
-            if (vertex->render_flag == 1) continue;
-            fout << "v " << vertex->x << " " << vertex->y << " " << vertex->z << endl;      // The vertex data
-        }
-
         for (auto face : mesh_faces) {
-            if (face->render_flag == 1) continue;
             smfparser::W_edge *e0 = face->edge;
             smfparser::W_edge *edge = e0;
             fout << "f";
             do {
-                fout << " " << vertex_index_map[edge->start] + 1 - extra_prefix[vertex_index_map[edge->start]];      // The faces data
+                fout << " " << vertex_index_map[edge->start] + 1;      // The faces data
                 if (edge->left == face)
                     edge = edge->left_next;
                 else
@@ -298,24 +280,22 @@ void InitRenderMeshData() {
         data_vertex.push_back(0.0f);
     }
 
-    for (auto face : mesh_faces) {      // Update faces data for rendering
-        if (face->render_flag != 1) {
-            smfparser::W_edge *e0 = face->edge;
-            smfparser::W_edge *edge = e0;
-            do {
-                data_faces.push_back(vertex_index_map[edge->start]);
-                if (edge->left == face)
-                    edge = edge->left_next;
-                else
-                    edge = edge->right_next;
-            } while (edge != e0);
-        }
+    for (auto face : mesh_faces) {          // Update faces data for rendering
+        smfparser::W_edge *e0 = face->edge;
+        smfparser::W_edge *edge = e0;
+        do {
+            data_faces.push_back(vertex_index_map[edge->start]);
+            if (edge->left == face)
+                edge = edge->left_next;
+            else
+                edge = edge->right_next;
+        } while (edge != e0);
     }
 
-    for (auto edge : mesh_edges) {      // Update edges data for rendering
+    for (auto edge : mesh_edges) {          // Update edges data for rendering
         data_edges.push_back(vertex_index_map[edge.second->start]);
         data_edges.push_back(vertex_index_map[edge.second->end]);
     }
 }
 
-} // namespace smfparser
+}  // namespace smfparser

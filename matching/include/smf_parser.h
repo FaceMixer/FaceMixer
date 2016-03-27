@@ -62,6 +62,6 @@ void ExportMeshFile();
 // Init mesh data for rendering
 void InitRenderMeshData();
 
-} // namespace smfparser
+}  // namespace smfparser
 
-#endif // SMFVIEW_SMF_PARSER_H_
+#endif  // SMFVIEW_SMF_PARSER_H_

@@ -48,18 +48,16 @@ struct Vertex {
     W_edge *edge;
     glm::mat4x4 *Q;
     float x, y, z;
-    int render_flag;
-    Vertex(float x, float y, float z): edge(nullptr), Q(nullptr), x(x), y(y), z(z), render_flag(0) {};         // Default constructor
+    Vertex(float x, float y, float z): edge(nullptr), Q(nullptr), x(x), y(y), z(z) {};         // Default constructor
 };
 
 // Structure Face
 struct Face {
     W_edge *edge;
     glm::mat4x4 *K;
-    int render_flag;
-    Face(): edge(nullptr), K(nullptr), render_flag(0) {};      // Default constructor
+    Face(): edge(nullptr), K(nullptr) {};      // Default constructor
 };
 
-} // namespace smfparser
+}  // namespace smfparser
 
-#endif // SMFVIEW_WINGED_EDGE_H_
+#endif  // SMFVIEW_WINGED_EDGE_H_

@@ -56,6 +56,6 @@ const int kElementVecLenPosition = 3;
 const int kElementVecLenColor    = 4;
 const int kElementVecLenTotal    = 7;
 
-} // namespace libconsts
+}  // namespace libconsts
 
-#endif // SMFVIEW_LIB_CONSTS_H_
+#endif  // SMFVIEW_LIB_CONSTS_H_

@@ -24,30 +24,20 @@
 #include "lib_consts.h"
 #include "init_shader.h"
 #include "smf_parser.h"
-#include "subdivision.h"
-#include "decimation.h"
 
 using namespace std;
 
 int main_win;       // The id of main window
-int mesh_type = libconsts::kMeshTypeShadedEdges;        // The type of mesh display
 int import_semaphore = libconsts::kImportLockOff;       // Import semaphore
 int export_semaphore = libconsts::kExportLockOff;       // Export semaphore
-int subdivision_semaphore = libconsts::kSubdivisionLockOn;       // Subdivision semaphore
-int decimation_semaphore = libconsts::kDecimationLockOff;         // Decimation semaphore
 int mesh_imported = libconsts::kMeshImportedFalse;      // The mesh import flag (for display)
-int subdivision_type = libconsts::kSubdivisionLoop;     // Subdivision type
-int subdivision_level = 0;                              // Subdivision level
-int colorful = 0;   // The flag indicate rendering color or not
-int decimation_k = 8;           // The k value used in multiple choice scheme
-int decimation_iteration = 1;   // The iteration of decimation
+int colorful = 1;
+int mesh_type = libconsts::kMeshTypeWireFrame;
 
 // Variables in GLUI
-GLUI_String file_path = "eight.smf";      // The string of file path
+GLUI_String file_path = "test.smf";      // The string of file path
 GLUI *gluiRight;            // The GLUI on right
 GLUI *gluiBot;              // The GLUI on bottom
-GLUI_Spinner *spinner;      // The spinner for controller subdivision level
-GLUI_StaticText *staticText;    // The static text showing mesh edge number
 
 // The mesh data that stored in winged_edge structure
 vector<smfparser::Vertex *> mesh_vertex;    // The vertex mesh data
@@ -66,9 +56,9 @@ glm::mat4 MV;
 
 // Location of vertex attributes in the shader program
 GLuint v_position;
-GLuint v_color;
 GLuint v_mvp;
 GLuint v_mv;
+GLuint v_color;
 GLuint is_wireframe;
 GLuint is_colorful;
 GLuint is_smooth;
@@ -82,50 +72,6 @@ GLuint ebo_IDs[2];      // Element Array Buffer Object for each VAO (one for sol
 GLfloat lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_position[3]  = {0,0,0};
-
-//
-// Function: StartSubdivision
-// ---------------------------
-//
-//   The function that call subdivision to mesh data
-//
-//   Parameters:
-//       void
-//
-//   Returns:
-//       void
-//
-
-void StartSubdivision(void) {
-    if (subdivision_semaphore != libconsts::kSubdivisionLockOn) {       // Check subdivision semaphore
-        if (subdivision_type == libconsts::kSubdivisionLoop) {          // Do loop subdivision
-            subdivision::LoopSubdivision(subdivision_level);
-        } else if (subdivision_type == libconsts::kSubdivisionButterfly) {      // Do butterfly subdivision
-            subdivision::ButterflySubdivision(subdivision_level);
-        }
-    }
-}
-
-//
-// Function: StartDecimation
-// ---------------------------
-//
-//   The function that call decimation to mesh data
-//
-//   Parameters:
-//       void
-//
-//   Returns:
-//       void
-//
-
-void StartDecimation(void) {
-    if (decimation_semaphore != libconsts::kDecimationLockOn) {         // Check subdivision semaphore
-        decimation_semaphore = libconsts::kDecimationLockOn;
-        decimation::QuadricMatricsDecimation(decimation_k, decimation_iteration);          // Do quadric error matrics based decimation
-        decimation_semaphore = libconsts::kDecimationLockOff;
-    }
-}
 
 //
 // Function: UpdateMVP
@@ -194,12 +140,6 @@ void UpdateMeshBufferData() {
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[1]);
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, data_edges.size() * sizeof(GLuint), &data_edges.front());
-
-    // Update edges text display
-    std::string s = "Current mesh edges: ";
-    s += to_string(data_edges.size() / 4);
-    s += " ";
-    staticText->set_text(s.c_str());
 }
 
 //
@@ -408,24 +348,6 @@ void KeyboardFunc(unsigned char key, int, int) {
         case 'e':       // Export the mesh file
             smfparser::ExportMeshFile();
             break;
-        case 't':       // Change subdivision type
-            subdivision_type = 1 - subdivision_type;
-            gluiRight->sync_live();
-            break;
-        case '>':       // Increase the subdivision level
-            spinner->set_int_val(spinner->get_int_val() + 1);
-            gluiRight->sync_live();
-            break;
-        case '<':       // Decrease the subdivision level
-            spinner->set_int_val(spinner->get_int_val() - 1);
-            gluiRight->sync_live();
-            break;
-        case 's':       // Call subdivision function
-            StartSubdivision();
-            break;
-        case 'd':       // Call decimation function
-            StartDecimation();
-            break;
     }
     glutPostRedisplay();
 }
@@ -488,27 +410,6 @@ void InitGLUI(void) {
     mesh_listbox->add_item(libconsts::kMeshTypeSmoothShaded, "smooth shaded");
     mesh_listbox->add_item(libconsts::kMeshTypeWireFrame, "wireframe");
     mesh_listbox->add_item(libconsts::kMeshTypeShadedEdges, "shaded edges");
-
-    // Add subdivision panel
-    GLUI_Panel *subdivision_panel = gluiRight->add_panel("Subdivision");
-    gluiRight->add_column_to_panel(subdivision_panel, false);
-    GLUI_Panel *type_panel = gluiRight->add_panel_to_panel(subdivision_panel, "Subdivision type");
-    GLUI_RadioGroup *subdivision_radio_group = gluiRight->add_radiogroup_to_panel(type_panel, &subdivision_type);
-    gluiRight->add_radiobutton_to_group(subdivision_radio_group, "Loop");
-    gluiRight->add_radiobutton_to_group(subdivision_radio_group, "Butterfly");
-    spinner = gluiRight->add_spinner_to_panel(subdivision_panel, "Subdivision level ", GLUI_SPINNER_INT, &subdivision_level);
-    spinner->set_int_limits(0, 5);
-    gluiRight->add_button_to_panel(subdivision_panel, "Go!", 0, (GLUI_Update_CB)StartSubdivision);
-    gluiRight->add_column_to_panel(subdivision_panel, false);
-
-    // Add decimation panel
-    GLUI_Panel *decimation_panel = gluiRight->add_panel("Decimation");
-    gluiRight->add_column_to_panel(decimation_panel, false);
-    staticText = gluiRight->add_statictext_to_panel(decimation_panel, "Current mesh edges:        ");
-    gluiRight->add_edittext_to_panel(decimation_panel, "K value: ", GLUI_EDITTEXT_INT, &decimation_k);
-    gluiRight->add_edittext_to_panel(decimation_panel, "Iteration: ", GLUI_EDITTEXT_INT, &decimation_iteration);
-    gluiRight->add_button_to_panel(decimation_panel, "Decimate", 0, (GLUI_Update_CB)StartDecimation);
-    gluiRight->add_column_to_panel(decimation_panel, false);
 
     // Add color checkbox
     GLUI_Panel *color_panel = gluiRight->add_panel("Color");

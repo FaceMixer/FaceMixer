@@ -42,10 +42,7 @@ char *ReadShaderSource(const char *shader_file) {
 
     fseek(fp, 0L, SEEK_SET);
     char *buf = new char[size + 1];
-    size_t t = fread(buf, 1, size, fp);
-    if (t == 0) {
-        //...
-    }
+    fread(buf, 1, size, fp);
 
     buf[size] = '\0';
     fclose(fp);
@@ -129,4 +126,4 @@ GLuint InitShader(const char *v_shader_file, const char *f_shader_file) {
     return program;
 }
 
-} // namespace angel
+}  // namespace angel
