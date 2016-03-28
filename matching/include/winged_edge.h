@@ -4,7 +4,7 @@
 //
 //  The header file for smf-view winged-edge structure declaration
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -15,8 +15,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SMFVIEW_WINGED_EDGE_H_
-#define SMFVIEW_WINGED_EDGE_H_
+#ifndef MATCHING_WINGED_EDGE_H_
+#define MATCHING_WINGED_EDGE_H_
 
 #include "lib_gl.h"
 
@@ -32,8 +32,7 @@ struct W_edge {
     Face *left, *right;
     W_edge *left_prev, *right_prev;
     W_edge *left_next, *right_next;
-    float cost;
-    W_edge(Vertex *st, Vertex *ed): start(st), end(ed), cost(0) {        // Default constructor
+    W_edge(Vertex *st, Vertex *ed): start(st), end(ed) {        // Default constructor
         left = nullptr;
         right = nullptr;
         left_prev = nullptr;
@@ -46,18 +45,16 @@ struct W_edge {
 // Structure Vertex
 struct Vertex {
     W_edge *edge;
-    glm::mat4x4 *Q;
     float x, y, z;
-    Vertex(float x, float y, float z): edge(nullptr), Q(nullptr), x(x), y(y), z(z) {};         // Default constructor
+    Vertex(float x, float y, float z): edge(nullptr), x(x), y(y), z(z) {};         // Default constructor
 };
 
 // Structure Face
 struct Face {
     W_edge *edge;
-    glm::mat4x4 *K;
-    Face(): edge(nullptr), K(nullptr) {};      // Default constructor
+    Face(): edge(nullptr) {};      // Default constructor
 };
 
 }  // namespace smfparser
 
-#endif  // SMFVIEW_WINGED_EDGE_H_
+#endif  // MATCHING_WINGED_EDGE_H_

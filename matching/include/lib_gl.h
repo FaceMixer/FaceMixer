@@ -4,7 +4,7 @@
 //
 //  The header file for include OpenGL headers in different operating systems
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -15,8 +15,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SMFVIEW_LIB_GL_H_
-#define SMFVIEW_LIB_GL_H_
+#ifndef MATCHING_LIB_GL_H_
+#define MATCHING_LIB_GL_H_
 
 // Include OpenGL relevant headers
 #ifdef __APPLE__
@@ -37,4 +37,4 @@
 #  include <glm/gtc/type_ptr.hpp>
 #endif  // End of Linux header include
 
-#endif  //SMFVIEW_LIB_GL_H_
+#endif  // MATCHING_LIB_GL_H_

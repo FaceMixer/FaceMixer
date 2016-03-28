@@ -4,7 +4,7 @@
 //
 //  The header file that offers an easy way to init vertex and fragment shaders
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -15,8 +15,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SMFVIEW_INIT_SHADER_H_
-#define SMFVIEW_INIT_SHADER_H_
+#ifndef MATCHING_INIT_SHADER_H_
+#define MATCHING_INIT_SHADER_H_
 
 #include "lib_gl.h"
 
@@ -30,4 +30,4 @@ GLuint InitShader(const char* v_shader_file, const char* f_shader_file);
 
 }  // namespace angle
 
-#endif  // SMFVIEW_INIT_SHADER_H_
+#endif  // MATCHING_INIT_SHADER_H_

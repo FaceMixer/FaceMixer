@@ -4,7 +4,7 @@
 //
 //  The header file for function that import/export mesh data file
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -15,8 +15,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SMFVIEW_SMF_PARSER_H_
-#define SMFVIEW_SMF_PARSER_H_
+#ifndef MATCHING_SMF_PARSER_H_
+#define MATCHING_SMF_PARSER_H_
 
 #include <iostream>
 #include <fstream>
@@ -40,9 +40,9 @@ extern vector<smfparser::Vertex *> mesh_vertex;     // The vertex data that stor
 extern vector<smfparser::Face *> mesh_faces;        // The faces data that stored in memory
 extern map<pair<int, int>, smfparser::W_edge *> mesh_edges;     // The edges data that stored in memory
 extern map<smfparser::Vertex *, GLuint> vertex_index_map;
-extern vector<GLfloat> data_vertex;     // The vertex data used for rendering
-extern vector<GLuint> data_faces;       // The faces data used for rendering
-extern vector<GLuint> data_edges;       // The edges data used for rendering
+extern vector<GLfloat> render_vertex;     // The vertex data used for rendering
+extern vector<GLuint> render_faces;       // The faces data used for rendering
+extern vector<GLuint> render_edges;       // The edges data used for rendering
 extern void UpdateMeshBufferData();
 
 namespace smfparser {
@@ -64,4 +64,4 @@ void InitRenderMeshData();
 
 }  // namespace smfparser
 
-#endif  // SMFVIEW_SMF_PARSER_H_
+#endif  // MATCHING_SMF_PARSER_H_

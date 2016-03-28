@@ -4,7 +4,7 @@
 //
 //  The header file for all global constants
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -15,8 +15,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SMFVIEW_LIB_CONSTS_H_
-#define SMFVIEW_LIB_CONSTS_H_
+#ifndef MATCHING_LIB_CONSTS_H_
+#define MATCHING_LIB_CONSTS_H_
 
 namespace libconsts {
 
@@ -56,6 +56,9 @@ const int kElementVecLenPosition = 3;
 const int kElementVecLenColor    = 4;
 const int kElementVecLenTotal    = 7;
 
+// The max path length in shortest path finding algorithm
+const int kMaxPathLength = 999999999;
+
 }  // namespace libconsts
 
-#endif  // SMFVIEW_LIB_CONSTS_H_
+#endif  // MATCHING_LIB_CONSTS_H_

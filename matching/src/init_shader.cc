@@ -4,7 +4,7 @@
 //
 //  The source file that offers an easy way to init vertex and fragment shaders.
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg

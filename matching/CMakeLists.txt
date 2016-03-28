@@ -9,11 +9,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(SOURCE_FILES
         include/winged_edge.h
         include/smf_parser.h
+        include/match.h
         include/init_shader.h
         include/lib_consts.h
         include/lib_gl.h
         src/smf_parser.cc
         src/init_shader.cc
+        src/match.cc
         src/main.cc
         fshader_unix.glsl
         vshader_unix.glsl

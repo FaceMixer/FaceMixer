@@ -4,7 +4,7 @@
 //
 //  The source file for function that import/export mesh data file
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -266,25 +266,25 @@ void ExportMeshFile() {
 //
 
 void InitRenderMeshData() {
-    data_vertex.clear();    // Clear mesh data for rendering
-    data_faces.clear();
-    data_edges.clear();
+    render_vertex.clear();    // Clear mesh data for rendering
+    render_faces.clear();
+    render_edges.clear();
 
     for (auto vertex : mesh_vertex) {       // Update vertex data for rendering
-        data_vertex.push_back(vertex->x);
-        data_vertex.push_back(vertex->y);
-        data_vertex.push_back(vertex->z);
-        data_vertex.push_back((float)(rand() % 100) / 100);
-        data_vertex.push_back((float)(rand() % 100) / 100);
-        data_vertex.push_back((float)(rand() % 100) / 100);
-        data_vertex.push_back(0.0f);
+        render_vertex.push_back(vertex->x);
+        render_vertex.push_back(vertex->y);
+        render_vertex.push_back(vertex->z);
+        render_vertex.push_back((float)(rand() % 100) / 100);
+        render_vertex.push_back((float)(rand() % 100) / 100);
+        render_vertex.push_back((float)(rand() % 100) / 100);
+        render_vertex.push_back(0.0f);
     }
 
     for (auto face : mesh_faces) {          // Update faces data for rendering
         smfparser::W_edge *e0 = face->edge;
         smfparser::W_edge *edge = e0;
         do {
-            data_faces.push_back(vertex_index_map[edge->start]);
+            render_faces.push_back(vertex_index_map[edge->start]);
             if (edge->left == face)
                 edge = edge->left_next;
             else
@@ -293,8 +293,8 @@ void InitRenderMeshData() {
     }
 
     for (auto edge : mesh_edges) {          // Update edges data for rendering
-        data_edges.push_back(vertex_index_map[edge.second->start]);
-        data_edges.push_back(vertex_index_map[edge.second->end]);
+        render_edges.push_back(vertex_index_map[edge.second->start]);
+        render_edges.push_back(vertex_index_map[edge.second->end]);
     }
 }
 

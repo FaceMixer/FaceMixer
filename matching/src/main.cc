@@ -4,7 +4,7 @@
 //
 //  The source file for smf-view project, including most of the OpenGL functions
 //
-//  Project         : SmfView
+//  Project         : Matching
 //  Name            : Chong Guo
 //  Student ID      : 301295753
 //  SFU username    : armourg
@@ -24,6 +24,7 @@
 #include "lib_consts.h"
 #include "init_shader.h"
 #include "smf_parser.h"
+#include "match.h"
 
 using namespace std;
 
@@ -31,8 +32,8 @@ int main_win;       // The id of main window
 int import_semaphore = libconsts::kImportLockOff;       // Import semaphore
 int export_semaphore = libconsts::kExportLockOff;       // Export semaphore
 int mesh_imported = libconsts::kMeshImportedFalse;      // The mesh import flag (for display)
-int colorful = 1;
 int mesh_type = libconsts::kMeshTypeWireFrame;
+int colorful = 0;
 
 // Variables in GLUI
 GLUI_String file_path = "test.smf";      // The string of file path
@@ -46,9 +47,15 @@ map<pair<int, int>, smfparser::W_edge *> mesh_edges;    // The edges mesh data
 map<smfparser::Vertex *, GLuint> vertex_index_map;      // Mapping vertex to its index in mesh_vertex
 
 // The data used for rendering
-vector<GLfloat> data_vertex;    // The vertex data used for rendering
-vector<GLuint> data_faces;      // The faces data used for rendering
-vector<GLuint> data_edges;      // The edges data used for rendering
+vector<GLfloat> render_vertex;    // The vertex data used for rendering
+vector<GLuint> render_faces;      // The faces data used for rendering
+vector<GLuint> render_edges;      // The edges data used for rendering
+
+// The data used for matching algoritm
+vector<int> constrained_vertex;                 // Constrained vertex for matching
+vector<smfparser::Vertex *> match_vertex;       // The vertex data used for matching algorithm
+map<pair<int, int>, smfparser::W_edge *> match_edges;    // The edges data used for matching algorithm
+vector<match::Path *> shortest_path;            // The shortest path for each pair of constrained vertex in mesh
 
 // MVP matrix
 glm::mat4 MVP;
@@ -72,6 +79,32 @@ GLuint ebo_IDs[2];      // Element Array Buffer Object for each VAO (one for sol
 GLfloat lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_position[3]  = {0,0,0};
+
+
+//
+// Function: StartMatching
+// ---------------------------
+//
+//   Start matching
+//
+//   Parameters:
+//       void
+//
+//   Returns:
+//       void
+//
+
+void StartMatching(void) {
+    if (!mesh_imported) return;
+    match::ReadConstrainedVertex(constrained_vertex);       // Read in constrained vertex
+    match_edges = mesh_edges;
+    match_vertex = mesh_vertex;
+    shortest_path = match::FindShortestPath(constrained_vertex, match_vertex, match_edges);         // Get all pairs of shortest path
+    sort(shortest_path.begin(), shortest_path.end(), [](const match::Path *a, const match::Path *b){ return a->length < b->length; });
+    for (auto p : shortest_path) {
+        cout << vertex_index_map[p->st] + 1 << " -> " << vertex_index_map[p->ed] + 1 << " " << p->length << endl;
+    }
+}
 
 //
 // Function: UpdateMVP
@@ -127,19 +160,19 @@ void UpdateMeshBufferData() {
     glBindVertexArray(vao_IDs[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[0]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, data_vertex.size() * sizeof(GLfloat), &data_vertex.front());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, render_vertex.size() * sizeof(GLfloat), &render_vertex.front());
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[0]);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, data_faces.size() * sizeof(GLuint), &data_faces.front());
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_faces.size() * sizeof(GLuint), &render_faces.front());
 
     // Update second VAO
     glBindVertexArray(vao_IDs[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[1]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, data_vertex.size() * sizeof(GLfloat), &data_vertex.front());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, render_vertex.size() * sizeof(GLfloat), &render_vertex.front());
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[1]);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, data_edges.size() * sizeof(GLuint), &data_edges.front());
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_edges.size() * sizeof(GLuint), &render_edges.front());
 }
 
 //
@@ -246,17 +279,17 @@ void DisplayFunc(void) {
             glUniform1i(is_smooth, 1);
             glUniform1i(is_wireframe, 0);
             glBindVertexArray(vao_IDs[0]);
-            glDrawElements(GL_TRIANGLES, data_faces.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, render_faces.size(), GL_UNSIGNED_INT, 0);
         } else if (mesh_type == libconsts::kMeshTypeFlatShaded) {           // Flat Shaded
             glUniform1i(is_smooth, 0);
             glUniform1i(is_wireframe, 0);
             glBindVertexArray(vao_IDs[0]);
-            glDrawElements(GL_TRIANGLES, data_faces.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, render_faces.size(), GL_UNSIGNED_INT, 0);
         } else if (mesh_type == libconsts::kMeshTypeWireFrame) {            // Wire frame
             glUniform1i(is_smooth, 1);
             glUniform1i(is_wireframe, 1);
             glBindVertexArray(vao_IDs[1]);
-            glDrawElements(GL_LINES, data_edges.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
         } else {                                                            // Solid + wire frame
             glUniform1i(is_smooth, 1);
 
@@ -265,13 +298,13 @@ void DisplayFunc(void) {
             glPolygonOffset(1.0f, 1.0f);
             glUniform1i(is_wireframe, 0);
             glBindVertexArray(vao_IDs[0]);
-            glDrawElements(GL_TRIANGLES, data_faces.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, render_faces.size(), GL_UNSIGNED_INT, 0);
             glDisable(GL_POLYGON_OFFSET_FILL);
 
             // Then draw wireframe without polygon offset
             glUniform1i(is_wireframe, 1);
             glBindVertexArray(vao_IDs[1]);
-            glDrawElements(GL_LINES, data_edges.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
         }
     }
 
@@ -418,6 +451,9 @@ void InitGLUI(void) {
     gluiRight->add_radiobutton_to_group(color_radio_group, "Colorful");
     gluiRight->add_radiobutton_to_group(color_radio_group, "White");
     gluiRight->add_column_to_panel(color_panel, false);
+
+    // Matching button
+    gluiRight->add_button("Matching", 0, (GLUI_Update_CB)StartMatching);
 
     // Add quit button
     gluiRight->add_button("Quit", 0, (GLUI_Update_CB)exit);
