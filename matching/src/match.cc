@@ -19,6 +19,9 @@
 
 namespace match {
 
+// The graph used for Dijkstra algorithm
+vector<vector<pair<int, int>>> G;
+
 //
 // Function: ReadConstrainedVertex
 // ---------------------------
@@ -50,23 +53,19 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
 }
 
 //
-// Function: FindShortestPath
+// Function: InitGraph
 // ---------------------------
 //
-//   Find the shortest path among all pairs of constrained vertex
+//   Init the graph for dijkstra algorithm
 //
 //   Parameters:
-//       constrained_vertex: the constrained vertex array
+//       void
 //
 //   Returns:
 //       void
 //
 
-vector<Path *> FindShortestPath(vector<int> &constrained_vertex, vector<smfparser::Vertex *> &match_vertex,
-                                map<pair<int, int>, smfparser::W_edge *> &match_edges) {
-    vector<Path *> path;                    // The shortest path result
-    vector<vector<pair<int, int>>> G;       // The graph used for Dijkstra algorithm
-
+void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges) {
     for (smfparser::Vertex *v : match_vertex) {             // Generate graph G for dijkstra algorithm
         vector<pair<int, int>> vp;
 
@@ -109,11 +108,28 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, vector<smfparse
 
         G.push_back(vp);                    // Get graph G
     }
+}
+
+//
+// Function: FindShortestPath
+// ---------------------------
+//
+//   Find the shortest path among all pairs of constrained vertex
+//
+//   Parameters:
+//       constrained_vertex: the constrained vertex array
+//
+//   Returns:
+//       void
+//
+
+vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges) {
+    vector<Path *> path_array;              // The shortest path result
 
     for (int i: constrained_vertex) {       // For each constrained vertex as start vertex, do Dijkstra algorithm
         int st = i - 1;
-        vector<int> dist(match_vertex.size(), libconsts::kMaxPathLength);
-        vector<int> prev(match_vertex.size(), -1);
+        vector<int> dist(G.size(), libconsts::kMaxPathLength);
+        vector<int> prev(G.size(), -1);
         set<pair<int, int>> Q;
         dist[st] = 0;
         Q.insert(make_pair(st, 0));         // Initial start vertex
@@ -139,7 +155,7 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, vector<smfparse
 
         for (int j: constrained_vertex) {               // Store all pairs of shortest path among constrained vertex
             int ed = j - 1;
-            if (st != ed) {
+            if (st < ed) {
                 Path *new_path = new Path(mesh_vertex[st], mesh_vertex[ed], dist[ed]);
                 int v1 = ed, v2;
                 while (v1 != -1) {
@@ -150,10 +166,82 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, vector<smfparse
                     }
                 }
                 reverse(new_path->edges.begin(), new_path->edges.end());
-                path.push_back(new_path);
+                path_array.push_back(new_path);
             }
         }
     }
+
+    return path_array;
+}
+
+//
+// Function: CheckLegal
+// ---------------------------
+//
+//   Check if this path is legal to choose
+//
+//   Parameters:
+//       path: the path that need to check
+//
+//   Returns:
+//       void
+//
+
+bool CheckLegal(Path *path) {
+    if (path->edges.size() != 0)
+        return true;
+    return false;
+}
+
+//
+// Function: RecomputeShortestPath
+// ---------------------------
+//
+//   Recompute the shortest path for specific st and ed vertex
+//
+//   Parameters:
+//       void
+//
+//   Returns:
+//       void
+//
+
+Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex) {
+    vector<int> dist(G.size(), libconsts::kMaxPathLength);
+    vector<int> prev(G.size(), -1);
+    set<pair<int, int>> Q;
+    dist[st] = 0;
+    Q.insert(make_pair(st, 0));         // Initial start vertex
+
+    while (!Q.empty()) {                // Until no more update
+        int v = (*Q.begin()).first;
+        Q.erase(Q.begin());
+
+        for (auto it: G[v]) {           // Update from this vertex to all its adjacent vertex
+            int v2 = it.first;
+            int cost = it.second;
+            if (!deleted_vertex[v2] && dist[v2] > dist[v] + cost) {        // If find a better path
+                if (dist[v2] != libconsts::kMaxPathLength) {
+                    if (Q.find(make_pair(v2, dist[v2])) != Q.end())
+                        Q.erase(Q.find(make_pair(v2, dist[v2])));
+                }
+                dist[v2] = dist[v] + cost;          // Update minimum cost
+                prev[v2] = v;                       // Update previous vertex
+                Q.insert(make_pair(v2, dist[v2]));
+            }
+        }
+    }
+
+    Path *path = new Path(mesh_vertex[st], mesh_vertex[ed], dist[ed]);      // The shortest path
+    int v1 = ed, v2;
+    while (v1 != -1) {
+        v2 = v1;
+        v1 = prev[v1];
+        if (v1 != -1) {
+            path->edges.push_back(make_pair(v1 + 1, v2 + 1));
+        }
+    }
+    reverse(path->edges.begin(), path->edges.end());
 
     return path;
 }

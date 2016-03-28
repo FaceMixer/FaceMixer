@@ -56,10 +56,18 @@ struct Path {
 // Read the constrained vertex
 void ReadConstrainedVertex(vector<int> &constrained_vertex);
 
+// Init the graph for dijkstra algorithm
+void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges);
+
 // Find the shortest path among all pairs of constrained vertex
-vector<Path *> FindShortestPath(vector<int> &constrained_vertex, vector<smfparser::Vertex *> &match_vertex,
-                                map<pair<int, int>, smfparser::W_edge *> &match_edges);
+vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges);
+
+// Check if this path is legal to choose
+bool CheckLegal(Path *path);
+
+// Recompute the shortest path for specific st and ed vertex
+Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex);
 
 }  // namespace match
 
-#endif //MATCHING_MATCH_H
+#endif  // MATCHING_MATCH_H

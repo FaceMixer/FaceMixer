@@ -52,10 +52,13 @@ vector<GLuint> render_faces;      // The faces data used for rendering
 vector<GLuint> render_edges;      // The edges data used for rendering
 
 // The data used for matching algoritm
-vector<int> constrained_vertex;                 // Constrained vertex for matching
+vector<int> constrained_vertex;                 // Constrained vertices for matching
 vector<smfparser::Vertex *> match_vertex;       // The vertex data used for matching algorithm
+vector<bool> deleted_vertex;                    // The flag that indicate if a vertex has been deleted
 map<pair<int, int>, smfparser::W_edge *> match_edges;    // The edges data used for matching algorithm
-vector<match::Path *> shortest_path;            // The shortest path for each pair of constrained vertex in mesh
+vector<match::Path *> shortest_path;            // The shortest path for each pair of constrained vertices in mesh
+vector<match::Path *> TmVc;
+vector<pair<int, int>> TPc;
 
 // MVP matrix
 glm::mat4 MVP;
@@ -80,6 +83,22 @@ GLfloat lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 GLfloat object_position[3]  = {0,0,0};
 
+//
+// Function: Compare
+// ---------------------------
+//
+//   The compare function for sorting the shortest path
+//
+//   Parameters:
+//       void
+//
+//   Returns:
+//       void
+//
+
+bool Compare(const match::Path *a, const match::Path *b) {
+    return a->length > b->length;
+}
 
 //
 // Function: StartMatching
@@ -96,13 +115,47 @@ GLfloat object_position[3]  = {0,0,0};
 
 void StartMatching(void) {
     if (!mesh_imported) return;
-    match::ReadConstrainedVertex(constrained_vertex);       // Read in constrained vertex
+
+    match::ReadConstrainedVertex(constrained_vertex);       // Read in constrained vertices
+
     match_edges = mesh_edges;
     match_vertex = mesh_vertex;
-    shortest_path = match::FindShortestPath(constrained_vertex, match_vertex, match_edges);         // Get all pairs of shortest path
-    sort(shortest_path.begin(), shortest_path.end(), [](const match::Path *a, const match::Path *b){ return a->length < b->length; });
+    deleted_vertex.clear();
+    deleted_vertex.assign(match_vertex.size(), false);
+
+    match::InitGraph(match_vertex, match_edges);            // Init graph for dijkstra algorithm
+    shortest_path = match::FindShortestPath(constrained_vertex, match_edges);      // Get all pairs of shortest path
+    sort(shortest_path.begin(), shortest_path.end(), Compare);              // Sort shortest path array
+
     for (auto p : shortest_path) {
         cout << vertex_index_map[p->st] + 1 << " -> " << vertex_index_map[p->ed] + 1 << " " << p->length << endl;
+    }
+
+    while (!shortest_path.empty()) {                        // Do until no more shortest path
+        match::Path *path = shortest_path.back();
+        shortest_path.pop_back();
+        if (match::CheckLegal(path)) {                      // If this edge is legal to add to the final set
+            TmVc.push_back(path);
+            TPc.push_back(make_pair(vertex_index_map[path->st] + 1, vertex_index_map[path->ed] + 1));
+            for (int i = 0; i < path->edges.size() - 1; i++) {          // Delete all interior vertices of the chosen path
+                deleted_vertex[path->edges[i].second] = true;
+            }
+            for (int i = 0; i < shortest_path.size(); i++ ) {           // Check everty remain path to see if need update
+                int flag = false;
+                for (auto j : shortest_path[i]->edges) {
+                    if (deleted_vertex[j.first] || deleted_vertex[j.second]) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {     // If contain deleted vertices, we recompute the shortest path for this pair of vertices
+                    shortest_path[i] = match::RecomputeShortestPath(vertex_index_map[shortest_path[i]->st],
+                                                                    vertex_index_map[shortest_path[i]->ed],
+                                                                    match_edges, deleted_vertex);
+                }
+            }
+            sort(shortest_path.begin(), shortest_path.end(), Compare);      // Sort shortest path array after update
+        }
     }
 }
 
