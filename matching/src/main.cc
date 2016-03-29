@@ -127,23 +127,21 @@ void StartMatching(void) {
     shortest_path = match::FindShortestPath(constrained_vertex, match_edges);      // Get all pairs of shortest path
     sort(shortest_path.begin(), shortest_path.end(), Compare);              // Sort shortest path array
 
-    for (auto p : shortest_path) {
-        cout << vertex_index_map[p->st] + 1 << " -> " << vertex_index_map[p->ed] + 1 << " " << p->length << endl;
-    }
-
     while (!shortest_path.empty()) {                        // Do until no more shortest path
         match::Path *path = shortest_path.back();
         shortest_path.pop_back();
         if (match::CheckLegal(path)) {                      // If this edge is legal to add to the final set
             TmVc.push_back(path);
             TPc.push_back(make_pair(vertex_index_map[path->st] + 1, vertex_index_map[path->ed] + 1));
-            for (int i = 0; i < path->edges.size() - 1; i++) {          // Delete all interior vertices of the chosen path
-                deleted_vertex[path->edges[i].second] = true;
+            for (int i = 0; i < path->edges.size(); i++) {              // Delete all interior vertices of the chosen path
+                deleted_vertex[path->edges[i].first - 1] = true;
+                deleted_vertex[path->edges[i].second - 1] = true;
             }
-            for (int i = 0; i < shortest_path.size(); i++ ) {           // Check everty remain path to see if need update
+            for (int i = 0; i < shortest_path.size(); i++ ) {           // Check every remain path to see if need update
                 int flag = false;
-                for (auto j : shortest_path[i]->edges) {
-                    if (deleted_vertex[j.first] || deleted_vertex[j.second]) {
+                for (int j = 0; j < shortest_path[i]->edges.size(); j++) {
+                    if (deleted_vertex[shortest_path[i]->edges[j].first - 1] && (j != 0) ||
+                        deleted_vertex[shortest_path[i]->edges[j].second - 1] && (j != shortest_path[i]->edges.size() - 1)) {
                         flag = true;
                         break;
                     }
@@ -157,6 +155,17 @@ void StartMatching(void) {
             sort(shortest_path.begin(), shortest_path.end(), Compare);      // Sort shortest path array after update
         }
     }
+
+    for (auto p : TmVc) {
+        for (int i = 0; i < p->edges.size(); i++) {
+            if (i == 0)
+                cout << p->edges[i].first << " - " << p->edges[i].second;
+            else
+                cout << " - " << p->edges[i].second;
+        }
+        cout << endl;
+    }
+
 }
 
 //

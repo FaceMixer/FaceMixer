@@ -220,7 +220,7 @@ Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edg
         for (auto it: G[v]) {           // Update from this vertex to all its adjacent vertex
             int v2 = it.first;
             int cost = it.second;
-            if (!deleted_vertex[v2] && dist[v2] > dist[v] + cost) {        // If find a better path
+            if ((!deleted_vertex[v2] || v2 == ed) && dist[v2] > dist[v] + cost) {        // If find a better path
                 if (dist[v2] != libconsts::kMaxPathLength) {
                     if (Q.find(make_pair(v2, dist[v2])) != Q.end())
                         Q.erase(Q.find(make_pair(v2, dist[v2])));
