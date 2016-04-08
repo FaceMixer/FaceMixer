@@ -33,12 +33,13 @@ int import_semaphore = libconsts::kImportLockOff;       // Import semaphore
 int export_semaphore = libconsts::kExportLockOff;       // Export semaphore
 int mesh_imported = libconsts::kMeshImportedFalse;      // The mesh import flag (for display)
 int mesh_type = libconsts::kMeshTypeWireFrame;
-int colorful = 0;
 
 // Variables in GLUI
 GLUI_String file_path = "face.smf";      // The string of file path
 GLUI *gluiRight;            // The GLUI on right
 GLUI *gluiBot;              // The GLUI on bottom
+int colorful = 0;           // The flag for colorful display
+int matched_display = 0;    // The flag for matched mesh display
 
 // The mesh data that stored in winged_edge structure
 vector<smfparser::Vertex *> mesh_vertex;    // The vertex mesh data
@@ -50,8 +51,10 @@ map<smfparser::Vertex *, GLuint> vertex_index_map;      // Mapping vertex to its
 vector<GLfloat> render_vertex;    // The vertex data used for rendering
 vector<GLuint> render_faces;      // The faces data used for rendering
 vector<GLuint> render_edges;      // The edges data used for rendering
+vector<GLuint> render_matched_edges;    // The matched edges data used for rendering
+vector<GLuint> render_constrained_vertices;    // The constrained vertices data used for rendering
 
-// The data used for matching algoritm
+// The data used for matching algorithm
 vector<int> constrained_vertex;                 // Constrained vertices for matching
 vector<smfparser::Vertex *> match_vertex;       // The vertex data used for matching algorithm
 vector<bool> deleted_vertex;                    // The flag that indicate if a vertex has been deleted
@@ -74,9 +77,9 @@ GLuint is_colorful;
 GLuint is_smooth;
 
 // VAO and VBO
-GLuint vao_IDs[2];      // VAO for each object: one for solid, one for wireframe
-GLuint vbo_IDs[2];      // Vertex Buffer Object for each VAO (specifying vertex positions and colors)
-GLuint ebo_IDs[2];      // Element Array Buffer Object for each VAO (one for solid, one for wireframe)
+GLuint vao_IDs[4];      // VAO for each object: one for solid, one for wireframe
+GLuint vbo_IDs[4];      // Vertex Buffer Object for each VAO (specifying vertex positions and colors)
+GLuint ebo_IDs[4];      // Element Array Buffer Object for each VAO (one for solid, two for wireframe, one for dot)
 
 // The rotation and position that changed by GLUI controller
 GLfloat lights_rotation[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
@@ -123,12 +126,17 @@ void StartMatching(void) {
     deleted_vertex.clear();
     deleted_vertex.assign(match_vertex.size(), false);
 
+    cout << "Start init graph..." << endl;
     match::InitGraph(match_vertex, match_edges);            // Init graph for dijkstra algorithm
+    cout << "Graph init finished!" << endl;
+
+    cout << "Start calculate shortest paths..." << endl;
     shortest_path = match::FindShortestPath(constrained_vertex, match_edges);      // Get all pairs of shortest path
     sort(shortest_path.begin(), shortest_path.end(), Compare);              // Sort shortest path array
+    cout << "Shortest paths calculation finished!" << endl;
 
     while (!shortest_path.empty()) {                        // Do until no more shortest path
-        cout << "Remaining: " << shortest_path.size() << endl;
+        cout << "Remaining shortest path: " << shortest_path.size() << endl;
         match::Path *path = shortest_path.back();
         shortest_path.pop_back();
         if (match::CheckLegal(path)) {                      // If this edge is legal to add to the final set
@@ -157,7 +165,7 @@ void StartMatching(void) {
         }
     }
 
-    for (auto p : TmVc) {
+    for (auto p : TmVc) {       // Print the matched mesh edges
         for (int i = 0; i < p->edges.size(); i++) {
             if (i == 0)
                 cout << p->edges[i].first << " - " << p->edges[i].second;
@@ -167,6 +175,16 @@ void StartMatching(void) {
         cout << endl;
     }
 
+    render_matched_edges.clear();
+
+    for (auto p: TmVc) {        // Put all matched edges to render array
+        for (int i = 0; i < p->edges.size(); i++) {
+            render_matched_edges.push_back(p->edges[i].first - 1);
+            render_matched_edges.push_back(p->edges[i].second - 1);
+        }
+    }
+
+    UpdateMeshBufferData();
 }
 
 //
@@ -236,6 +254,29 @@ void UpdateMeshBufferData() {
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[1]);
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_edges.size() * sizeof(GLuint), &render_edges.front());
+
+    // Update third VAO
+    glBindVertexArray(vao_IDs[2]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[2]);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, render_vertex.size() * sizeof(GLfloat), &render_vertex.front());
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[2]);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_matched_edges.size() * sizeof(GLuint), &render_matched_edges.front());
+
+    // Update third VAO
+    glBindVertexArray(vao_IDs[3]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[3]);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, render_vertex.size() * sizeof(GLfloat), &render_vertex.front());
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[3]);
+    render_constrained_vertices.clear();
+    for (auto i : constrained_vertex) {
+        render_constrained_vertices.push_back(i - 1);
+        cout << i - 1 << endl;
+    }
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_constrained_vertices.size() * sizeof(GLuint), &render_constrained_vertices.front());
 }
 
 //
@@ -274,7 +315,7 @@ void Init() {
     is_smooth = (GLuint)glGetUniformLocation(program, "is_smooth");
 
     // Create Vertex Array Objects, store the names in array vao_IDs
-    glGenVertexArrays(2, vao_IDs);
+    glGenVertexArrays(4, vao_IDs);
 
     // Bind for first VAO
     glBindVertexArray(vao_IDs[0]);
@@ -292,7 +333,7 @@ void Init() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, libconsts::kMaxFaceNum * 3 * sizeof(GLuint), NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(v_color);
     glVertexAttribPointer(v_color, libconsts::kElementVecLenColor, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat),
-                          (void *)(libconsts::kElementVecLenPosition * sizeof (GLfloat)));
+                          (void *)(libconsts::kElementVecLenPosition * sizeof(GLfloat)));
 
     // Bind for second VAO
     glBindVertexArray(vao_IDs[1]);
@@ -310,7 +351,43 @@ void Init() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, libconsts::kMaxEdgeNum * 2 * sizeof(GLuint), NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(v_color);
     glVertexAttribPointer(v_color, libconsts::kElementVecLenColor, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat),
-                          (void *)(libconsts::kElementVecLenPosition * sizeof (GLfloat)));
+                          (void *)(libconsts::kElementVecLenPosition * sizeof(GLfloat)));
+
+    // Bind for third VAO
+    glBindVertexArray(vao_IDs[2]);
+    glGenBuffers(1, &vbo_IDs[2]);
+    glGenBuffers(1, &ebo_IDs[2]);
+
+    // Create Array Buffer Object, store the names in array vbo_IDs
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[2]);
+    glBufferData(GL_ARRAY_BUFFER, libconsts::kMaxVertexNum * libconsts::kElementVecLenTotal * sizeof(GLfloat), NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(v_position);
+    glVertexAttribPointer(v_position, libconsts::kElementVecLenPosition, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat), 0);
+
+    // Create Element Array Buffer Object, store the names in array ebo_IDs
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[2]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, libconsts::kMaxEdgeNum * 2 * sizeof(GLuint), NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(v_color);
+    glVertexAttribPointer(v_color, libconsts::kElementVecLenColor, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat),
+                          (void *)(libconsts::kElementVecLenPosition * sizeof(GLfloat)));
+
+    // Bind for fourth VAO
+    glBindVertexArray(vao_IDs[3]);
+    glGenBuffers(1, &vbo_IDs[3]);
+    glGenBuffers(1, &ebo_IDs[3]);
+
+    // Create Array Buffer Object, store the names in array vbo_IDs
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_IDs[3]);
+    glBufferData(GL_ARRAY_BUFFER, libconsts::kMaxVertexNum * libconsts::kElementVecLenTotal * sizeof(GLfloat), NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(v_position);
+    glVertexAttribPointer(v_position, libconsts::kElementVecLenPosition, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat), 0);
+
+    // Create Element Array Buffer Object, store the names in array ebo_IDs
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_IDs[3]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, libconsts::kMaxVertexNum * sizeof(GLuint), NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(v_color);
+    glVertexAttribPointer(v_color, libconsts::kElementVecLenColor, GL_FLOAT, GL_FALSE, libconsts::kElementVecLenTotal * sizeof(GLfloat),
+                          (void *)(libconsts::kElementVecLenPosition * sizeof(GLfloat)));
 }
 
 //
@@ -351,8 +428,15 @@ void DisplayFunc(void) {
         } else if (mesh_type == libconsts::kMeshTypeWireFrame) {            // Wire frame
             glUniform1i(is_smooth, 1);
             glUniform1i(is_wireframe, 1);
-            glBindVertexArray(vao_IDs[1]);
-            glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
+            if (!matched_display) {
+                glBindVertexArray(vao_IDs[1]);
+                glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
+            } else {
+                glBindVertexArray(vao_IDs[2]);
+                glDrawElements(GL_LINES, render_matched_edges.size(), GL_UNSIGNED_INT, 0);
+            }
+            glBindVertexArray(vao_IDs[3]);
+            glDrawElements(GL_POINTS, render_constrained_vertices.size(), GL_UNSIGNED_INT, 0);
         } else {                                                            // Solid + wire frame
             glUniform1i(is_smooth, 1);
 
@@ -366,8 +450,15 @@ void DisplayFunc(void) {
 
             // Then draw wireframe without polygon offset
             glUniform1i(is_wireframe, 1);
-            glBindVertexArray(vao_IDs[1]);
-            glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
+            if (!matched_display) {
+                glBindVertexArray(vao_IDs[1]);
+                glDrawElements(GL_LINES, render_edges.size(), GL_UNSIGNED_INT, 0);
+            } else {
+                glBindVertexArray(vao_IDs[2]);
+                glDrawElements(GL_LINES, render_matched_edges.size(), GL_UNSIGNED_INT, 0);
+            }
+            glBindVertexArray(vao_IDs[3]);
+            glDrawElements(GL_POINTS, render_constrained_vertices.size(), GL_UNSIGNED_INT, 0);
         }
     }
 
@@ -514,6 +605,14 @@ void InitGLUI(void) {
     gluiRight->add_radiobutton_to_group(color_radio_group, "Colorful");
     gluiRight->add_radiobutton_to_group(color_radio_group, "White");
     gluiRight->add_column_to_panel(color_panel, false);
+
+    // Add display checkbox
+    GLUI_Panel *display_panel = gluiRight->add_panel("Display");
+    gluiRight->add_column_to_panel(display_panel, false);
+    GLUI_RadioGroup *display_radio_group = gluiRight->add_radiogroup_to_panel(display_panel, &matched_display);
+    gluiRight->add_radiobutton_to_group(display_radio_group, "Original");
+    gluiRight->add_radiobutton_to_group(display_radio_group, "Matched");
+    gluiRight->add_column_to_panel(display_panel, false);
 
     // Matching button
     gluiRight->add_button("Matching", 0, (GLUI_Update_CB)StartMatching);

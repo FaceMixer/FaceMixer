@@ -57,7 +57,7 @@ const int kElementVecLenColor    = 4;
 const int kElementVecLenTotal    = 7;
 
 // The max path length in shortest path finding algorithm
-const int kMaxPathLength = 999999999;
+const int kMaxPathLength = 2000000000;
 
 }  // namespace libconsts
 

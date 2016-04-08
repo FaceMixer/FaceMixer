@@ -52,7 +52,12 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
         constrained_vertex.push_back(vertex_index);
     }
 
+    for (auto p: constrained_vertex) {
+        cout << p << endl;
+    }
+
     /*
+    constrained_vertex.clear();
     constrained_vertex.push_back(1);
     constrained_vertex.push_back(2);
     constrained_vertex.push_back(3);
@@ -86,8 +91,6 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
     for (smfparser::Vertex *v : match_vertex) {             // Generate graph G for dijkstra algorithm
         vector<pair<int, int>> vp;
 
-        if (v->edge == nullptr) continue;
-
         smfparser::W_edge *e0 = v->edge;
         smfparser::W_edge *e1;
         if (match_edges.find(make_pair((int)vertex_index_map[v->edge->end] + 1,
@@ -100,7 +103,7 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
 
         smfparser::W_edge *edge = e0;       // Traverse each edge around a vertex
         do {
-            int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000);
+            int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000000);
             if (edge->end == v) {
                 vp.push_back(make_pair((int)vertex_index_map[edge->start], dist));
                 edge = edge->right_prev;
@@ -119,7 +122,7 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
                     edge = edge->right_next;
                 }
                 if (edge != nullptr) {
-                    int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000);
+                    int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000000);
                     vp.push_back(make_pair((int)vertex_index_map[edge->end], dist));
                 }
             } while (edge != e0 && edge != e1 && edge != nullptr);
@@ -166,6 +169,7 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, i
                             Q.erase(Q.find(make_pair(v2, dist[v2])));
                     }
                     dist[v2] = dist[v] + cost;          // Update minimum cost
+                    if (dist[v2] < 0) exit(EXIT_FAILURE);
                     prev[v2] = v;                       // Update previous vertex
                     Q.insert(make_pair(v2, dist[v2]));
                 }
