@@ -36,7 +36,7 @@ int mesh_type = libconsts::kMeshTypeWireFrame;
 int colorful = 0;
 
 // Variables in GLUI
-GLUI_String file_path = "test.smf";      // The string of file path
+GLUI_String file_path = "face.smf";      // The string of file path
 GLUI *gluiRight;            // The GLUI on right
 GLUI *gluiBot;              // The GLUI on bottom
 
@@ -128,6 +128,7 @@ void StartMatching(void) {
     sort(shortest_path.begin(), shortest_path.end(), Compare);              // Sort shortest path array
 
     while (!shortest_path.empty()) {                        // Do until no more shortest path
+        cout << "Remaining: " << shortest_path.size() << endl;
         match::Path *path = shortest_path.back();
         shortest_path.pop_back();
         if (match::CheckLegal(path)) {                      // If this edge is legal to add to the final set

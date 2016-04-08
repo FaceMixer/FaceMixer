@@ -36,7 +36,23 @@ vector<vector<pair<int, int>>> G;
 //
 
 void ReadConstrainedVertex(vector<int> &constrained_vertex) {
+    ifstream fin("mesh/index.txt", ifstream::in);
+
+    if (!fin.is_open()) {       // Check if input file exist
+        cout << "Index file doesn't exist!" << endl;
+        return;
+    }
+
     constrained_vertex.clear();
+
+    int n, vertex_index;
+    fin >> n;
+    for (int i = 0; i < n; i++) {        // While not end of file
+        fin >> vertex_index;
+        constrained_vertex.push_back(vertex_index);
+    }
+
+    /*
     constrained_vertex.push_back(1);
     constrained_vertex.push_back(2);
     constrained_vertex.push_back(3);
@@ -50,6 +66,7 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
     constrained_vertex.push_back(12);
     constrained_vertex.push_back(16);
     constrained_vertex.push_back(17);
+    */
 }
 
 //
@@ -68,6 +85,8 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
 void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges) {
     for (smfparser::Vertex *v : match_vertex) {             // Generate graph G for dijkstra algorithm
         vector<pair<int, int>> vp;
+
+        if (v->edge == nullptr) continue;
 
         smfparser::W_edge *e0 = v->edge;
         smfparser::W_edge *e1;
