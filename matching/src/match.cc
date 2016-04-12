@@ -51,27 +51,6 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
         fin >> vertex_index;
         constrained_vertex.push_back(vertex_index);
     }
-
-    for (auto p: constrained_vertex) {
-        cout << p << endl;
-    }
-
-    /*
-    constrained_vertex.clear();
-    constrained_vertex.push_back(1);
-    constrained_vertex.push_back(2);
-    constrained_vertex.push_back(3);
-    constrained_vertex.push_back(4);
-    constrained_vertex.push_back(5);
-    constrained_vertex.push_back(6);
-    constrained_vertex.push_back(7);
-    constrained_vertex.push_back(8);
-    constrained_vertex.push_back(9);
-    constrained_vertex.push_back(10);
-    constrained_vertex.push_back(12);
-    constrained_vertex.push_back(16);
-    constrained_vertex.push_back(17);
-    */
 }
 
 //

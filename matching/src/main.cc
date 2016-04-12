@@ -274,7 +274,6 @@ void UpdateMeshBufferData() {
     render_constrained_vertices.clear();
     for (auto i : constrained_vertex) {
         render_constrained_vertices.push_back(i - 1);
-        cout << i - 1 << endl;
     }
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, render_constrained_vertices.size() * sizeof(GLuint), &render_constrained_vertices.front());
 }
