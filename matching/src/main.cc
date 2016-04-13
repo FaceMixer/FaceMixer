@@ -166,26 +166,18 @@ void StartMatching(void) {
         }
     }
 
-    for (auto p : TmVc) {       // Print the matched mesh edges
-        for (int i = 0; i < p->edges.size(); i++) {
-            if (i == 0)
-                cout << p->edges[i].first << " - " << p->edges[i].second;
-            else
-                cout << " - " << p->edges[i].second;
-        }
-        cout << endl;
-    }
-
     render_matched_edges.clear();
-
     for (auto p: TmVc) {        // Put all matched edges to render array
         for (int i = 0; i < p->edges.size(); i++) {
             render_matched_edges.push_back(p->edges[i].first - 1);
             render_matched_edges.push_back(p->edges[i].second - 1);
         }
     }
-
     UpdateMeshBufferData();
+
+    cout << "Start to output all patches with boundary path to file..." << endl;
+    match::OutputPathMatchResult(TmVc);            // Output match result to file
+    cout << "Output finished!" << endl;
 }
 
 //

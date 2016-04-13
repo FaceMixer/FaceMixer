@@ -49,11 +49,12 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex, map<int, pair<float,
     float x, y;
     fin >> n;
     for (int i = 0; i < n; i++) {        // While not end of file
-        fin >> vertex_index;
-        fin >> x >> y;
+        fin >> vertex_index >> x >> y;
         constrained_vertex.push_back(vertex_index);
         constrained_vertex_position[vertex_index] = make_pair(x, y);
     }
+
+    fin.close();
 }
 
 //
@@ -215,7 +216,9 @@ bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_pos
             t++;
         else
             t--;
-        //if (t < 0) return false;
+        if (t < 0) {
+            //return false;
+        }
     }
     return true;
 }
@@ -271,6 +274,59 @@ Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edg
     reverse(path->edges.begin(), path->edges.end());
 
     return path;
+}
+
+// Output match result to file
+void OutputPathMatchResult(vector<match::Path *> &TmVc) {
+    ofstream fout("mesh/match_result.txt", ofstream::out);
+    vector<int> patch(mesh_vertex.size(), -1);
+    int patch_number = 1;
+
+    for (auto p : TmVc) {       // Print the matched mesh edges
+        for (int i = 0; i < p->edges.size(); i++) {
+            if (i == 0) {
+                cout << p->edges[i].first << " - " << p->edges[i].second;
+                patch[p->edges[i].first - 1] = 0;
+                patch[p->edges[i].second - 1] = 0;
+            } else {
+                cout << " - " << p->edges[i].second;
+                patch[p->edges[i].second - 1] = 0;
+            }
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < mesh_vertex.size(); i++) {              // For each vertex, do floodfill if it is not visited
+        if (patch[i] == -1) {
+            queue<int> Q;
+            vector<int> patch_vertex;
+            patch_vertex.clear();
+            Q.push(i);                      // Init first vertex in queue
+            patch[i] = patch_number;
+            patch_vertex.push_back(i);
+            while (!Q.empty()) {
+                int v = Q.front();
+                Q.pop();
+                for (auto it : G[v]) {
+                    if (patch[it.first] == -1) {        // Floodfill
+                        Q.push(it.first);
+                        patch[it.first] = patch_number;     // Update patch number for that vertex
+                        patch_vertex.push_back(it.first);
+                    } else if (patch[it.first] == 0) {      // Find boundary for that patch
+
+                    }
+                }
+            }
+            fout << patch_vertex.size() << endl;
+            //for (auto v : patch_vertex) {
+            //    fout << v + 1 << endl;
+            //}
+            fout << endl;
+            patch_number++;
+        }
+    }
+
+    fout.close();
 }
 
 }  // namespace match

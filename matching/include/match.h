@@ -21,6 +21,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <queue>
 
 #include "smf_parser.h"
 
@@ -67,6 +68,9 @@ bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_pos
 
 // Recompute the shortest path for specific st and ed vertex
 Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex);
+
+// Output match result to file
+void OutputPathMatchResult(vector<match::Path *> &TmVc);
 
 }  // namespace match
 
