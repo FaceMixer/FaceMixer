@@ -35,7 +35,7 @@ vector<vector<pair<int, int>>> G;
 //       void
 //
 
-void ReadConstrainedVertex(vector<int> &constrained_vertex) {
+void ReadConstrainedVertex(vector<int> &constrained_vertex, map<int, pair<float, float>> &constrained_vertex_position) {
     ifstream fin("mesh/index.txt", ifstream::in);
 
     if (!fin.is_open()) {       // Check if input file exist
@@ -46,10 +46,13 @@ void ReadConstrainedVertex(vector<int> &constrained_vertex) {
     constrained_vertex.clear();
 
     int n, vertex_index;
+    float x, y;
     fin >> n;
     for (int i = 0; i < n; i++) {        // While not end of file
         fin >> vertex_index;
+        fin >> x >> y;
         constrained_vertex.push_back(vertex_index);
+        constrained_vertex_position[vertex_index] = make_pair(x, y);
     }
 }
 
@@ -82,7 +85,8 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
 
         smfparser::W_edge *edge = e0;       // Traverse each edge around a vertex
         do {
-            int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000000);
+            int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) +
+                                   powf(edge->start->y - edge->end->y, 2)) * libconsts::kDistanceScalingNumber);
             if (edge->end == v) {
                 vp.push_back(make_pair((int)vertex_index_map[edge->start], dist));
                 edge = edge->right_prev;
@@ -101,7 +105,8 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
                     edge = edge->right_next;
                 }
                 if (edge != nullptr) {
-                    int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) + powf(edge->start->y - edge->end->y, 2)) * 100000000);
+                    int dist = (int)(sqrtf(powf(edge->start->x - edge->end->x, 2) +
+                                           powf(edge->start->y - edge->end->y, 2)) * libconsts::kDistanceScalingNumber);
                     vp.push_back(make_pair((int)vertex_index_map[edge->end], dist));
                 }
             } while (edge != e0 && edge != e1 && edge != nullptr);
@@ -189,10 +194,30 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, i
 //       void
 //
 
-bool CheckLegal(Path *path) {
-    if (path->edges.size() != 0)
-        return true;
-    return false;
+bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_position) {
+    if (path->edges.size() == 0) return false;
+    int st_index = vertex_index_map[path->st] + 1;
+    int ed_index = vertex_index_map[path->ed] + 1;
+    glm::vec2 st = glm::vec2(constrained_vertex_position[st_index].first, constrained_vertex_position[st_index].second);
+    glm::vec2 ed = glm::vec2(constrained_vertex_position[ed_index].first, constrained_vertex_position[ed_index].second);
+    for (auto i: constrained_vertex_position) {
+        if (i.first == st_index || i.first == ed_index) continue;
+        glm::vec2 point = glm::vec2(i.second.first, i.second.second);
+        float dist = (ed.x - st.x) * (point.y - st.y) - (ed.y - st.y) * (point.x - st.x);
+        if (fabsf(dist) < 1) continue;
+        int t = 0;
+        glm::vec2 st2 = glm::vec2(mesh_vertex[st_index - 1]->x, mesh_vertex[st_index - 1]->y);
+        glm::vec2 ed2 = glm::vec2(mesh_vertex[ed_index - 1]->x, mesh_vertex[ed_index - 1]->y);
+        glm::vec2 point2 = glm::vec2(mesh_vertex[i.first - 1]->x, mesh_vertex[i.first - 1]->y);
+        float dist2 = (ed2.x - st2.x) * (point2.y - st2.y) - (ed2.y - st2.y) * (point2.x - st2.x);
+        if (fabsf(dist2) < 1) continue;
+        if (dist * dist2 >= 0)
+            t++;
+        else
+            t--;
+        //if (t < 0) return false;
+    }
+    return true;
 }
 
 //

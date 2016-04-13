@@ -58,6 +58,7 @@ const int kElementVecLenTotal    = 7;
 
 // The max path length in shortest path finding algorithm
 const int kMaxPathLength = 2000000000;
+const int kDistanceScalingNumber =  100000000;
 
 }  // namespace libconsts
 

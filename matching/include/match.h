@@ -54,7 +54,7 @@ struct Path {
 };
 
 // Read the constrained vertex
-void ReadConstrainedVertex(vector<int> &constrained_vertex);
+void ReadConstrainedVertex(vector<int> &constrained_vertex, map<int, pair<float, float>> &constrained_vertex_position);
 
 // Init the graph for dijkstra algorithm
 void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges);
@@ -63,7 +63,7 @@ void InitGraph(vector<smfparser::Vertex *> &match_vertex, map<pair<int, int>, sm
 vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, int>, smfparser::W_edge *> &match_edges);
 
 // Check if this path is legal to choose
-bool CheckLegal(Path *path);
+bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_position);
 
 // Recompute the shortest path for specific st and ed vertex
 Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex);

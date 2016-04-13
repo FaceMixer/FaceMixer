@@ -59,6 +59,7 @@ vector<int> constrained_vertex;                 // Constrained vertices for matc
 vector<smfparser::Vertex *> match_vertex;       // The vertex data used for matching algorithm
 vector<bool> deleted_vertex;                    // The flag that indicate if a vertex has been deleted
 map<pair<int, int>, smfparser::W_edge *> match_edges;    // The edges data used for matching algorithm
+map<int, pair<float, float>> constrained_vertex_position;   // The constrained vertex position
 vector<match::Path *> shortest_path;            // The shortest path for each pair of constrained vertices in mesh
 vector<match::Path *> TmVc;
 vector<pair<int, int>> TPc;
@@ -119,7 +120,7 @@ bool Compare(const match::Path *a, const match::Path *b) {
 void StartMatching(void) {
     if (!mesh_imported) return;
 
-    match::ReadConstrainedVertex(constrained_vertex);       // Read in constrained vertices
+    match::ReadConstrainedVertex(constrained_vertex, constrained_vertex_position);       // Read in constrained vertices
 
     match_edges = mesh_edges;
     match_vertex = mesh_vertex;
@@ -139,7 +140,7 @@ void StartMatching(void) {
         cout << "Remaining shortest path: " << shortest_path.size() << endl;
         match::Path *path = shortest_path.back();
         shortest_path.pop_back();
-        if (match::CheckLegal(path)) {                      // If this edge is legal to add to the final set
+        if (match::CheckLegal(path, constrained_vertex_position)) {                      // If this edge is legal to add to the final set
             TmVc.push_back(path);
             TPc.push_back(make_pair(vertex_index_map[path->st] + 1, vertex_index_map[path->ed] + 1));
             for (int i = 0; i < path->edges.size(); i++) {              // Delete all interior vertices of the chosen path
