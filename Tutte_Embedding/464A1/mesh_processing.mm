@@ -559,6 +559,7 @@ void fileSave(GLUI_Control* control )
     myfile.open(file_url);
     if (myfile.is_open())
     {
+        myfile << "# "<<vertex_num<<" "<<face_num<<"\n";//de
         myfile << "# "<<vertex_num+12<<" "<<face_num+v_boundary_faces.size()<<"\n";
         for(int i=1;i<=vertex_num;i++)
             myfile << "v "<<w_vertices[i].x<<" "<<w_vertices[i].y<<" "<<w_vertices[i].z<<"\n";

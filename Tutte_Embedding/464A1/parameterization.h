@@ -5,8 +5,13 @@
 #include <math.h>
 #include "tnt.h"
 #include "jama_lu.h"
-using namespace TNT;
+#include "Eigen/Core"
+#include "Eigen/Dense"
+#include "Eigen/Sparse"
+#include "umfpack.h"
 
+using namespace TNT;
+using namespace Eigen;
 W_Edge * find_next_boundary_edge(W_Edge * e0, W_Vertex * vertex)
 {
     W_Edge *edge=e0;
@@ -24,7 +29,7 @@ int calculate_valence(W_Vertex *v)
     int valence=0;
     W_Edge* e0=v->edge;
     W_Edge* edge=e0;
-
+    
     do{                                                     // all edges that share v
         if(edge->end ==v) edge=edge->right_next;
         else edge=edge->left_next;
@@ -80,12 +85,12 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-
+      
         myfile.close();
     }
     else cout << "Unable to open file";
-
-
+    
+    
     file_url="/Users/joseph/Documents/MATLAB/Cext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -101,11 +106,11 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-
+        
         myfile.close();
     }
     else cout << "Unable to open file";
-
+    
     file_url="/Users/joseph/Documents/MATLAB/Xext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -121,11 +126,11 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-
+        
         myfile.close();
     }
     else cout << "Unable to open file";
-
+    
     file_url="/Users/joseph/Documents/MATLAB/Yext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -141,12 +146,12 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-
+        
         myfile.close();
     }
     else cout << "Unable to open file";
 
-
+    
 }
 
 void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
@@ -164,7 +169,7 @@ void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
         myfile.close();
     }
     else cout<<"File Error!";
-
+    
     urlstring="/Users/joseph/Documents/MATLAB/Yint.output";
     myfile.open(urlstring);
     if (myfile.is_open())
@@ -180,6 +185,29 @@ void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
 
 }
 
+
+void DemoTry2(int* Ap,int* Ai,double* Ax,double* b,double*x){
+    int n = 4702;
+    void *Symbolic, *Numeric;
+    
+    /* symbolic analysis */
+    umfpack_di_symbolic(n, n, Ap, Ai, Ax, &Symbolic, NULL, NULL);
+    
+    /* LU factorization */
+    umfpack_di_numeric(Ap, Ai, Ax, Symbolic, &Numeric, NULL, NULL);
+    umfpack_di_free_symbolic(&Symbolic);
+    
+    /* solve system */
+    umfpack_di_solve(UMFPACK_A, Ap, Ai, Ax, x, b, Numeric, NULL, NULL);
+    umfpack_di_free_numeric(&Numeric);
+    
+    for (int i = 0; i < n; i++)
+    {
+        printf("x[%d] = %g\n", i, x[i]);
+    }
+    
+}
+
 void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &boundary_vertices,W_Vertex *w_vertices, adj_element ** adj_List)
 {
     //internal_num--; // TODO REMOVE
@@ -192,6 +220,7 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
     Array2D<float> Xext((int)boundary_vertices.size(),1,0.0);
     Array2D<float> Yext((int)boundary_vertices.size(),1,0.0);
 
+    
     int j=0;
     for(int i=1;i<=vertex_num;i++)
     {
@@ -210,7 +239,7 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
             Yext[w_vertices[i].boundary_i][0]=w_vertices[i].y;
         }
     }
-
+    
     for(int i=1;i<=vertex_num;i++)
     {
         if (!w_vertices[i].isboundary&&w_vertices[i].edge!=NULL) // for internal points
@@ -219,13 +248,61 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
         }
     }
 
-
+    
     for(int i=0;i<internal_num;i++)
                 Mtx_I[i][i]=1.0;
-
+    
     Array2D<float> Mtx_A=Mtx_I-Cint;
     output_mat(Mtx_A,Cext, Xext, Yext);
-    getchar();
+    
+    MatrixXd Mtx_A0(Mtx_A.dim1(),Mtx_A.dim2());
+    MatrixXd Mtx_Cext(Cext.dim1(),Cext.dim2());
+    MatrixXd Mtx_Xext(Xext.dim1(),1);
+    MatrixXd Mtx_Yext(Yext.dim1(),1);
+    
+    for (int row =0; row<Mtx_A.dim1(); row ++)
+    {
+        for ( int col =0;col<Mtx_A.dim2();col ++ )
+        {
+            Mtx_A0(row,col)=Mtx_A[row][col];
+        }
+    }
+    
+    for (int row =0; row<Cext.dim1(); row ++)
+    {
+        for ( int col =0;col<Cext.dim2();col ++ )
+        {
+            Mtx_Cext(row,col)=Cext[row][col];
+        }
+    }
+    
+    for (int row =0; row<Xext.dim1();row++)
+    {
+        Mtx_Xext(row,0)=Xext[row][0];
+        Mtx_Yext(row,0)=Yext[row][0];
+    }
+    
+    MatrixXd ResultX=Mtx_Cext*Mtx_Xext;
+    MatrixXd ResultY=Mtx_Cext*Mtx_Yext;
+    
+    SparseMatrix<double> Sparse_A;
+    
+    Sparse_A = Mtx_A0.sparseView();
+    double X_array[ResultX.rows()];
+    double Y_array[ResultY.rows()];
+    
+    for (int row =0; row < ResultX.rows();row++)
+    {
+        X_array[row]=ResultX(row,0);
+        Y_array[row]=ResultY(row,0);
+    }
+    double Xint_array[ResultX.rows()];
+    double Yint_array[ResultY.rows()];
+    
+   // DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),X_array,Xint_array);
+  //  DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),Y_array,Yint_array);
+    
+    /*getchar();
     read_proccessed_data(Xint,Yint);
     for(int i=1;i<=vertex_num;i++)
     {
@@ -235,5 +312,14 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
             w_vertices[i].y=Yint[w_vertices[i].internal_i][0];
         }
     }
-
+     */
+    for(int i=1;i<=vertex_num;i++)
+    {
+        if (!w_vertices[i].isboundary && w_vertices[i].edge!=NULL) // for internal points
+        {
+            w_vertices[i].x=Xint_array[w_vertices[i].internal_i];
+            w_vertices[i].y=Yint_array[w_vertices[i].internal_i];
+        }
+    }
+    
 }

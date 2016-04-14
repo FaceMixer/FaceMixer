@@ -12,6 +12,46 @@
 		7C686C641C5B0EB000CE0F27 /* mesh_processing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7C686C631C5B0EB000CE0F27 /* mesh_processing.mm */; };
 		7CBF63B41C6DFEA400B60188 /* GLUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBF63B31C6DFEA400B60188 /* GLUI.framework */; };
 		7CBF63B81C6E004C00B60188 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBF63B71C6E004C00B60188 /* Cocoa.framework */; };
+		7CFDFA181CC04C0A0024325F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA171CC04C0A0024325F /* Accelerate.framework */; };
+		7CFDFA8F1CC0587E0024325F /* libamd.2.4.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA681CC0587E0024325F /* libamd.2.4.4.dylib */; };
+		7CFDFA901CC0587E0024325F /* libamd.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA691CC0587E0024325F /* libamd.2.dylib */; };
+		7CFDFA911CC0587E0024325F /* libamd.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6A1CC0587E0024325F /* libamd.dylib */; };
+		7CFDFA921CC0587E0024325F /* libbtf.1.2.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6B1CC0587E0024325F /* libbtf.1.2.4.dylib */; };
+		7CFDFA931CC0587E0024325F /* libbtf.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6C1CC0587E0024325F /* libbtf.1.dylib */; };
+		7CFDFA941CC0587E0024325F /* libbtf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6D1CC0587E0024325F /* libbtf.dylib */; };
+		7CFDFA951CC0587E0024325F /* libcamd.2.4.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6E1CC0587E0024325F /* libcamd.2.4.4.dylib */; };
+		7CFDFA961CC0587E0024325F /* libcamd.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA6F1CC0587E0024325F /* libcamd.2.dylib */; };
+		7CFDFA971CC0587E0024325F /* libcamd.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA701CC0587E0024325F /* libcamd.dylib */; };
+		7CFDFA981CC0587E0024325F /* libccolamd.2.9.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA711CC0587E0024325F /* libccolamd.2.9.4.dylib */; };
+		7CFDFA991CC0587E0024325F /* libccolamd.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA721CC0587E0024325F /* libccolamd.2.dylib */; };
+		7CFDFA9A1CC0587E0024325F /* libccolamd.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA731CC0587E0024325F /* libccolamd.dylib */; };
+		7CFDFA9B1CC0587E0024325F /* libcholmod.3.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA741CC0587E0024325F /* libcholmod.3.0.9.dylib */; };
+		7CFDFA9C1CC0587E0024325F /* libcholmod.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA751CC0587E0024325F /* libcholmod.3.dylib */; };
+		7CFDFA9D1CC0587E0024325F /* libcholmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA761CC0587E0024325F /* libcholmod.dylib */; };
+		7CFDFA9E1CC0587E0024325F /* libcolamd.2.9.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA771CC0587E0024325F /* libcolamd.2.9.4.dylib */; };
+		7CFDFA9F1CC0587E0024325F /* libcolamd.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA781CC0587E0024325F /* libcolamd.2.dylib */; };
+		7CFDFAA01CC0587E0024325F /* libcolamd.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA791CC0587E0024325F /* libcolamd.dylib */; };
+		7CFDFAA11CC0587E0024325F /* libcxsparse.3.1.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7A1CC0587E0024325F /* libcxsparse.3.1.7.dylib */; };
+		7CFDFAA21CC0587E0024325F /* libcxsparse.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7B1CC0587E0024325F /* libcxsparse.3.dylib */; };
+		7CFDFAA31CC0587E0024325F /* libcxsparse.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7C1CC0587E0024325F /* libcxsparse.dylib */; };
+		7CFDFAA41CC0587E0024325F /* libklu.1.3.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7D1CC0587E0024325F /* libklu.1.3.6.dylib */; };
+		7CFDFAA51CC0587E0024325F /* libklu.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7E1CC0587E0024325F /* libklu.1.dylib */; };
+		7CFDFAA61CC0587E0024325F /* libklu.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA7F1CC0587E0024325F /* libklu.dylib */; };
+		7CFDFAA71CC0587E0024325F /* libldl.2.2.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA801CC0587E0024325F /* libldl.2.2.4.dylib */; };
+		7CFDFAA81CC0587E0024325F /* libldl.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA811CC0587E0024325F /* libldl.2.dylib */; };
+		7CFDFAA91CC0587E0024325F /* libldl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA821CC0587E0024325F /* libldl.dylib */; };
+		7CFDFAAA1CC0587E0024325F /* librbio.2.2.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA831CC0587E0024325F /* librbio.2.2.4.dylib */; };
+		7CFDFAAB1CC0587E0024325F /* librbio.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA841CC0587E0024325F /* librbio.2.dylib */; };
+		7CFDFAAC1CC0587E0024325F /* librbio.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA851CC0587E0024325F /* librbio.dylib */; };
+		7CFDFAAD1CC0587E0024325F /* libspqr.2.0.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA861CC0587E0024325F /* libspqr.2.0.5.dylib */; };
+		7CFDFAAE1CC0587E0024325F /* libspqr.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA871CC0587E0024325F /* libspqr.2.dylib */; };
+		7CFDFAAF1CC0587E0024325F /* libspqr.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA881CC0587E0024325F /* libspqr.dylib */; };
+		7CFDFAB01CC0587E0024325F /* libsuitesparseconfig.4.5.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA891CC0587E0024325F /* libsuitesparseconfig.4.5.1.dylib */; };
+		7CFDFAB11CC0587E0024325F /* libsuitesparseconfig.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA8A1CC0587E0024325F /* libsuitesparseconfig.4.dylib */; };
+		7CFDFAB21CC0587E0024325F /* libsuitesparseconfig.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA8B1CC0587E0024325F /* libsuitesparseconfig.dylib */; };
+		7CFDFAB31CC0587E0024325F /* libumfpack.5.7.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA8C1CC0587E0024325F /* libumfpack.5.7.4.dylib */; };
+		7CFDFAB41CC0587E0024325F /* libumfpack.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA8D1CC0587E0024325F /* libumfpack.5.dylib */; };
+		7CFDFAB51CC0587E0024325F /* libumfpack.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA8E1CC0587E0024325F /* libumfpack.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,7 +71,6 @@
 		7C0F4FC81C5BF9930085C5D5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7C0FB6D01C7412D400D6BFDA /* MacTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacTypes.h; sourceTree = "<group>"; };
 		7C6205D31C9B868F00016F07 /* jama_lu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jama_lu.h; sourceTree = "<group>"; };
-		7C6205D41C9B8D7300016F07 /* MTL-4.0.9555-Linux */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "MTL-4.0.9555-Linux"; path = "464A1/MTL-4.0.9555-Linux"; sourceTree = "<group>"; };
 		7C686C601C5B0EB000CE0F27 /* tutte_embedding */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tutte_embedding; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C686C631C5B0EB000CE0F27 /* mesh_processing.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = mesh_processing.mm; sourceTree = "<group>"; };
 		7CB7C38C1C9A8658000DFC4E /* parameterization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parameterization.h; sourceTree = "<group>"; };
@@ -40,6 +79,47 @@
 		7CBF63B31C6DFEA400B60188 /* GLUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GLUI.framework; sourceTree = "<group>"; };
 		7CBF63B71C6E004C00B60188 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CE06EEF1C8A7A830057C347 /* wing_edge_ds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wing_edge_ds.h; sourceTree = "<group>"; };
+		7CFDFA141CC04A210024325F /* Eigen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Eigen; path = 464A1/Eigen; sourceTree = "<group>"; };
+		7CFDFA171CC04C0A0024325F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		7CFDFA681CC0587E0024325F /* libamd.2.4.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libamd.2.4.4.dylib; sourceTree = "<group>"; };
+		7CFDFA691CC0587E0024325F /* libamd.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libamd.2.dylib; sourceTree = "<group>"; };
+		7CFDFA6A1CC0587E0024325F /* libamd.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libamd.dylib; sourceTree = "<group>"; };
+		7CFDFA6B1CC0587E0024325F /* libbtf.1.2.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libbtf.1.2.4.dylib; sourceTree = "<group>"; };
+		7CFDFA6C1CC0587E0024325F /* libbtf.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libbtf.1.dylib; sourceTree = "<group>"; };
+		7CFDFA6D1CC0587E0024325F /* libbtf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libbtf.dylib; sourceTree = "<group>"; };
+		7CFDFA6E1CC0587E0024325F /* libcamd.2.4.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcamd.2.4.4.dylib; sourceTree = "<group>"; };
+		7CFDFA6F1CC0587E0024325F /* libcamd.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcamd.2.dylib; sourceTree = "<group>"; };
+		7CFDFA701CC0587E0024325F /* libcamd.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcamd.dylib; sourceTree = "<group>"; };
+		7CFDFA711CC0587E0024325F /* libccolamd.2.9.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libccolamd.2.9.4.dylib; sourceTree = "<group>"; };
+		7CFDFA721CC0587E0024325F /* libccolamd.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libccolamd.2.dylib; sourceTree = "<group>"; };
+		7CFDFA731CC0587E0024325F /* libccolamd.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libccolamd.dylib; sourceTree = "<group>"; };
+		7CFDFA741CC0587E0024325F /* libcholmod.3.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcholmod.3.0.9.dylib; sourceTree = "<group>"; };
+		7CFDFA751CC0587E0024325F /* libcholmod.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcholmod.3.dylib; sourceTree = "<group>"; };
+		7CFDFA761CC0587E0024325F /* libcholmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcholmod.dylib; sourceTree = "<group>"; };
+		7CFDFA771CC0587E0024325F /* libcolamd.2.9.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcolamd.2.9.4.dylib; sourceTree = "<group>"; };
+		7CFDFA781CC0587E0024325F /* libcolamd.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcolamd.2.dylib; sourceTree = "<group>"; };
+		7CFDFA791CC0587E0024325F /* libcolamd.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcolamd.dylib; sourceTree = "<group>"; };
+		7CFDFA7A1CC0587E0024325F /* libcxsparse.3.1.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcxsparse.3.1.7.dylib; sourceTree = "<group>"; };
+		7CFDFA7B1CC0587E0024325F /* libcxsparse.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcxsparse.3.dylib; sourceTree = "<group>"; };
+		7CFDFA7C1CC0587E0024325F /* libcxsparse.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcxsparse.dylib; sourceTree = "<group>"; };
+		7CFDFA7D1CC0587E0024325F /* libklu.1.3.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libklu.1.3.6.dylib; sourceTree = "<group>"; };
+		7CFDFA7E1CC0587E0024325F /* libklu.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libklu.1.dylib; sourceTree = "<group>"; };
+		7CFDFA7F1CC0587E0024325F /* libklu.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libklu.dylib; sourceTree = "<group>"; };
+		7CFDFA801CC0587E0024325F /* libldl.2.2.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libldl.2.2.4.dylib; sourceTree = "<group>"; };
+		7CFDFA811CC0587E0024325F /* libldl.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libldl.2.dylib; sourceTree = "<group>"; };
+		7CFDFA821CC0587E0024325F /* libldl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libldl.dylib; sourceTree = "<group>"; };
+		7CFDFA831CC0587E0024325F /* librbio.2.2.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librbio.2.2.4.dylib; sourceTree = "<group>"; };
+		7CFDFA841CC0587E0024325F /* librbio.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librbio.2.dylib; sourceTree = "<group>"; };
+		7CFDFA851CC0587E0024325F /* librbio.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librbio.dylib; sourceTree = "<group>"; };
+		7CFDFA861CC0587E0024325F /* libspqr.2.0.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libspqr.2.0.5.dylib; sourceTree = "<group>"; };
+		7CFDFA871CC0587E0024325F /* libspqr.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libspqr.2.dylib; sourceTree = "<group>"; };
+		7CFDFA881CC0587E0024325F /* libspqr.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libspqr.dylib; sourceTree = "<group>"; };
+		7CFDFA891CC0587E0024325F /* libsuitesparseconfig.4.5.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsuitesparseconfig.4.5.1.dylib; sourceTree = "<group>"; };
+		7CFDFA8A1CC0587E0024325F /* libsuitesparseconfig.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsuitesparseconfig.4.dylib; sourceTree = "<group>"; };
+		7CFDFA8B1CC0587E0024325F /* libsuitesparseconfig.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsuitesparseconfig.dylib; sourceTree = "<group>"; };
+		7CFDFA8C1CC0587E0024325F /* libumfpack.5.7.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libumfpack.5.7.4.dylib; sourceTree = "<group>"; };
+		7CFDFA8D1CC0587E0024325F /* libumfpack.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libumfpack.5.dylib; sourceTree = "<group>"; };
+		7CFDFA8E1CC0587E0024325F /* libumfpack.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libumfpack.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,10 +127,50 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CFDFAAC1CC0587E0024325F /* librbio.dylib in Frameworks */,
+				7CFDFA901CC0587E0024325F /* libamd.2.dylib in Frameworks */,
+				7CFDFAB31CC0587E0024325F /* libumfpack.5.7.4.dylib in Frameworks */,
+				7CFDFAA91CC0587E0024325F /* libldl.dylib in Frameworks */,
+				7CFDFA181CC04C0A0024325F /* Accelerate.framework in Frameworks */,
+				7CFDFAA81CC0587E0024325F /* libldl.2.dylib in Frameworks */,
+				7CFDFA8F1CC0587E0024325F /* libamd.2.4.4.dylib in Frameworks */,
+				7CFDFA9C1CC0587E0024325F /* libcholmod.3.dylib in Frameworks */,
+				7CFDFAB51CC0587E0024325F /* libumfpack.dylib in Frameworks */,
+				7CFDFAB41CC0587E0024325F /* libumfpack.5.dylib in Frameworks */,
+				7CFDFA9E1CC0587E0024325F /* libcolamd.2.9.4.dylib in Frameworks */,
+				7CFDFA941CC0587E0024325F /* libbtf.dylib in Frameworks */,
+				7CFDFAAB1CC0587E0024325F /* librbio.2.dylib in Frameworks */,
 				7CBF63B81C6E004C00B60188 /* Cocoa.framework in Frameworks */,
+				7CFDFAA61CC0587E0024325F /* libklu.dylib in Frameworks */,
 				7CBF63B41C6DFEA400B60188 /* GLUI.framework in Frameworks */,
 				7C0F4FC91C5BF9930085C5D5 /* OpenGL.framework in Frameworks */,
+				7CFDFA981CC0587E0024325F /* libccolamd.2.9.4.dylib in Frameworks */,
+				7CFDFAA71CC0587E0024325F /* libldl.2.2.4.dylib in Frameworks */,
+				7CFDFAB21CC0587E0024325F /* libsuitesparseconfig.dylib in Frameworks */,
+				7CFDFAAA1CC0587E0024325F /* librbio.2.2.4.dylib in Frameworks */,
+				7CFDFA931CC0587E0024325F /* libbtf.1.dylib in Frameworks */,
 				7C0F4FC51C5BF9090085C5D5 /* GLUT.framework in Frameworks */,
+				7CFDFA9A1CC0587E0024325F /* libccolamd.dylib in Frameworks */,
+				7CFDFA971CC0587E0024325F /* libcamd.dylib in Frameworks */,
+				7CFDFA951CC0587E0024325F /* libcamd.2.4.4.dylib in Frameworks */,
+				7CFDFA961CC0587E0024325F /* libcamd.2.dylib in Frameworks */,
+				7CFDFAB01CC0587E0024325F /* libsuitesparseconfig.4.5.1.dylib in Frameworks */,
+				7CFDFAA41CC0587E0024325F /* libklu.1.3.6.dylib in Frameworks */,
+				7CFDFA9F1CC0587E0024325F /* libcolamd.2.dylib in Frameworks */,
+				7CFDFAA51CC0587E0024325F /* libklu.1.dylib in Frameworks */,
+				7CFDFA9D1CC0587E0024325F /* libcholmod.dylib in Frameworks */,
+				7CFDFA911CC0587E0024325F /* libamd.dylib in Frameworks */,
+				7CFDFAAE1CC0587E0024325F /* libspqr.2.dylib in Frameworks */,
+				7CFDFA991CC0587E0024325F /* libccolamd.2.dylib in Frameworks */,
+				7CFDFAA21CC0587E0024325F /* libcxsparse.3.dylib in Frameworks */,
+				7CFDFAA01CC0587E0024325F /* libcolamd.dylib in Frameworks */,
+				7CFDFAAD1CC0587E0024325F /* libspqr.2.0.5.dylib in Frameworks */,
+				7CFDFA921CC0587E0024325F /* libbtf.1.2.4.dylib in Frameworks */,
+				7CFDFAA11CC0587E0024325F /* libcxsparse.3.1.7.dylib in Frameworks */,
+				7CFDFA9B1CC0587E0024325F /* libcholmod.3.0.9.dylib in Frameworks */,
+				7CFDFAB11CC0587E0024325F /* libsuitesparseconfig.4.dylib in Frameworks */,
+				7CFDFAAF1CC0587E0024325F /* libspqr.dylib in Frameworks */,
+				7CFDFAA31CC0587E0024325F /* libcxsparse.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,13 +180,15 @@
 		7C686C571C5B0EB000CE0F27 = {
 			isa = PBXGroup;
 			children = (
+				7CFDFAB61CC058860024325F /* lib */,
+				7CFDFA171CC04C0A0024325F /* Accelerate.framework */,
 				7CBF63B71C6E004C00B60188 /* Cocoa.framework */,
 				7CBF63B31C6DFEA400B60188 /* GLUI.framework */,
 				7C0F4FC81C5BF9930085C5D5 /* OpenGL.framework */,
 				7C0F4FC41C5BF9090085C5D5 /* GLUT.framework */,
 				7C686C621C5B0EB000CE0F27 /* codes */,
 				7C686C611C5B0EB000CE0F27 /* Products */,
-				7C6205D41C9B8D7300016F07 /* MTL-4.0.9555-Linux */,
+				7CFDFA141CC04A210024325F /* Eigen */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +213,52 @@
 			);
 			name = codes;
 			path = 464A1;
+			sourceTree = "<group>";
+		};
+		7CFDFAB61CC058860024325F /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				7CFDFA681CC0587E0024325F /* libamd.2.4.4.dylib */,
+				7CFDFA691CC0587E0024325F /* libamd.2.dylib */,
+				7CFDFA6A1CC0587E0024325F /* libamd.dylib */,
+				7CFDFA6B1CC0587E0024325F /* libbtf.1.2.4.dylib */,
+				7CFDFA6C1CC0587E0024325F /* libbtf.1.dylib */,
+				7CFDFA6D1CC0587E0024325F /* libbtf.dylib */,
+				7CFDFA6E1CC0587E0024325F /* libcamd.2.4.4.dylib */,
+				7CFDFA6F1CC0587E0024325F /* libcamd.2.dylib */,
+				7CFDFA701CC0587E0024325F /* libcamd.dylib */,
+				7CFDFA711CC0587E0024325F /* libccolamd.2.9.4.dylib */,
+				7CFDFA721CC0587E0024325F /* libccolamd.2.dylib */,
+				7CFDFA731CC0587E0024325F /* libccolamd.dylib */,
+				7CFDFA741CC0587E0024325F /* libcholmod.3.0.9.dylib */,
+				7CFDFA751CC0587E0024325F /* libcholmod.3.dylib */,
+				7CFDFA761CC0587E0024325F /* libcholmod.dylib */,
+				7CFDFA771CC0587E0024325F /* libcolamd.2.9.4.dylib */,
+				7CFDFA781CC0587E0024325F /* libcolamd.2.dylib */,
+				7CFDFA791CC0587E0024325F /* libcolamd.dylib */,
+				7CFDFA7A1CC0587E0024325F /* libcxsparse.3.1.7.dylib */,
+				7CFDFA7B1CC0587E0024325F /* libcxsparse.3.dylib */,
+				7CFDFA7C1CC0587E0024325F /* libcxsparse.dylib */,
+				7CFDFA7D1CC0587E0024325F /* libklu.1.3.6.dylib */,
+				7CFDFA7E1CC0587E0024325F /* libklu.1.dylib */,
+				7CFDFA7F1CC0587E0024325F /* libklu.dylib */,
+				7CFDFA801CC0587E0024325F /* libldl.2.2.4.dylib */,
+				7CFDFA811CC0587E0024325F /* libldl.2.dylib */,
+				7CFDFA821CC0587E0024325F /* libldl.dylib */,
+				7CFDFA831CC0587E0024325F /* librbio.2.2.4.dylib */,
+				7CFDFA841CC0587E0024325F /* librbio.2.dylib */,
+				7CFDFA851CC0587E0024325F /* librbio.dylib */,
+				7CFDFA861CC0587E0024325F /* libspqr.2.0.5.dylib */,
+				7CFDFA871CC0587E0024325F /* libspqr.2.dylib */,
+				7CFDFA881CC0587E0024325F /* libspqr.dylib */,
+				7CFDFA891CC0587E0024325F /* libsuitesparseconfig.4.5.1.dylib */,
+				7CFDFA8A1CC0587E0024325F /* libsuitesparseconfig.4.dylib */,
+				7CFDFA8B1CC0587E0024325F /* libsuitesparseconfig.dylib */,
+				7CFDFA8C1CC0587E0024325F /* libumfpack.5.7.4.dylib */,
+				7CFDFA8D1CC0587E0024325F /* libumfpack.5.dylib */,
+				7CFDFA8E1CC0587E0024325F /* libumfpack.dylib */,
+			);
+			name = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +411,11 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "\"/usr/local/homebrew/Cellar/suite-sparse/4.5.1/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/homebrew/Cellar/suite-sparse/4.5.1/lib",
+					"$(PROJECT_DIR)",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = tutte_embedding;
 			};
@@ -254,6 +427,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = "\"/usr/local/homebrew/Cellar/suite-sparse/4.5.1/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"/usr/local/homebrew/Cellar/suite-sparse/4.5.1/lib",
 					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
