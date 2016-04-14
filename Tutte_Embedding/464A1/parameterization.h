@@ -24,7 +24,7 @@ int calculate_valence(W_Vertex *v)
     int valence=0;
     W_Edge* e0=v->edge;
     W_Edge* edge=e0;
-    
+
     do{                                                     // all edges that share v
         if(edge->end ==v) edge=edge->right_next;
         else edge=edge->left_next;
@@ -80,12 +80,12 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-      
+
         myfile.close();
     }
     else cout << "Unable to open file";
-    
-    
+
+
     file_url="/Users/joseph/Documents/MATLAB/Cext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -101,11 +101,11 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-        
+
         myfile.close();
     }
     else cout << "Unable to open file";
-    
+
     file_url="/Users/joseph/Documents/MATLAB/Xext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -121,11 +121,11 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-        
+
         myfile.close();
     }
     else cout << "Unable to open file";
-    
+
     file_url="/Users/joseph/Documents/MATLAB/Yext.output";
     myfile.open(file_url);
     if (myfile.is_open())
@@ -141,12 +141,12 @@ void output_mat(Array2D<float>&Mat_A,Array2D<float>&Mat_B,Array2D<float>&Mat_C,A
             }
             myfile<<"\n";
         }
-        
+
         myfile.close();
     }
     else cout << "Unable to open file";
 
-    
+
 }
 
 void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
@@ -164,7 +164,7 @@ void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
         myfile.close();
     }
     else cout<<"File Error!";
-    
+
     urlstring="/Users/joseph/Documents/MATLAB/Yint.output";
     myfile.open(urlstring);
     if (myfile.is_open())
@@ -192,7 +192,6 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
     Array2D<float> Xext((int)boundary_vertices.size(),1,0.0);
     Array2D<float> Yext((int)boundary_vertices.size(),1,0.0);
 
-    
     int j=0;
     for(int i=1;i<=vertex_num;i++)
     {
@@ -211,7 +210,7 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
             Yext[w_vertices[i].boundary_i][0]=w_vertices[i].y;
         }
     }
-    
+
     for(int i=1;i<=vertex_num;i++)
     {
         if (!w_vertices[i].isboundary&&w_vertices[i].edge!=NULL) // for internal points
@@ -220,10 +219,10 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
         }
     }
 
-    
+
     for(int i=0;i<internal_num;i++)
                 Mtx_I[i][i]=1.0;
-    
+
     Array2D<float> Mtx_A=Mtx_I-Cint;
     output_mat(Mtx_A,Cext, Xext, Yext);
     getchar();
