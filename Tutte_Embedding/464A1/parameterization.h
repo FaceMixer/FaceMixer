@@ -203,7 +203,7 @@ void DemoTry2(int* Ap,int* Ai,double* Ax,double* b,double*x){
     
     for (int i = 0; i < n; i++)
     {
-        printf("x[%d] = %g\n", i, x[i]);
+        cout<<"x["<<i<<"] ="<<x[i]<<endl;
     }
     
 }
@@ -253,7 +253,7 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
                 Mtx_I[i][i]=1.0;
     
     Array2D<float> Mtx_A=Mtx_I-Cint;
-    output_mat(Mtx_A,Cext, Xext, Yext);
+   // output_mat(Mtx_A,Cext, Xext, Yext);
     
     MatrixXd Mtx_A0(Mtx_A.dim1(),Mtx_A.dim2());
     MatrixXd Mtx_Cext(Cext.dim1(),Cext.dim2());
@@ -299,8 +299,8 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
     double Xint_array[ResultX.rows()];
     double Yint_array[ResultY.rows()];
     
-   // DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),X_array,Xint_array);
-  //  DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),Y_array,Yint_array);
+    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),X_array,Xint_array);
+    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),Y_array,Yint_array);
     
     /*getchar();
     read_proccessed_data(Xint,Yint);
