@@ -71,8 +71,8 @@ bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_pos
 Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex);
 
 // Output match result to file
-void OutputPathMatchResult(vector<match::Path *> &TmVc, const vector<int> &constrained_vertex,
-                           const map<int, pair<float, float>> &constrained_vertex_position);
+void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained_vertex,
+                           map<int, pair<float, float>> &constrained_vertex_position);
 
 }  // namespace match
 

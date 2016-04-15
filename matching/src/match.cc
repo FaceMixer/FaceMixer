@@ -276,9 +276,20 @@ Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edg
     return path;
 }
 
-// Output match result to file
-void OutputPathMatchResult(vector<match::Path *> &TmVc, const vector<int> &constrained_vertex,
-                           const map<int, pair<float, float>> &constrained_vertex_position) {
+//
+// Function: OutputPathMatchResult
+// ---------------------------
+//
+//   Output match result to file
+//
+//   Parameters:
+//       void
+//
+//   Returns:
+//       void
+//
+void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained_vertex,
+                           map<int, pair<float, float>> &constrained_vertex_position) {
     ofstream fout("mesh/match_result.txt", ofstream::out);
     set<pair<int, int>> boundary_edge;
     vector<bool> boundary_vertex(mesh_vertex.size(), false);
@@ -358,17 +369,50 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, const vector<int> &const
                 if (!boundary_vertex[v2]) patch_vertex.insert(v2);
                 if (!boundary_vertex[v3]) patch_vertex.insert(v3);
             }
-            fout << "Path: " << endl;
+            vector<int> points;
+            for (auto p : end_points) {
+                points.push_back(p);
+            }
             for (auto p : TmVc) {
-                if (vertex_index_map[p->st] == end_points[0] && vertex_index_map[p->ed] == end_points[1]) {
-
+                if (vertex_index_map[p->st] == points[0] && vertex_index_map[p->ed] == points[1] ||
+                    vertex_index_map[p->st] == points[1] && vertex_index_map[p->ed] == points[2] ||
+                    vertex_index_map[p->st] == points[2] && vertex_index_map[p->ed] == points[0] ) {
+                    fout << p->edges.size() + 1 << endl;
+                    float stx = constrained_vertex_position[vertex_index_map[p->st] + 1].first;
+                    float sty = constrained_vertex_position[vertex_index_map[p->st] + 1].second;
+                    float edx = constrained_vertex_position[vertex_index_map[p->ed] + 1].first;
+                    float edy = constrained_vertex_position[vertex_index_map[p->ed] + 1].second;
+                    float dx = (edx - stx) / p->edges.size();
+                    float dy = (edy - sty) / p->edges.size();
+                    for (auto j = p->edges.begin(); j != p->edges.end(); j++) {
+                        fout << j->first << " " << stx <<  " " << sty << endl;
+                        stx += dx;
+                        sty += dy;
+                    }
+                    fout << p->edges.back().second << " " << stx << " " << sty << endl;
+                }
+                if (vertex_index_map[p->st] == points[1] && vertex_index_map[p->ed] == points[0] ||
+                    vertex_index_map[p->st] == points[2] && vertex_index_map[p->ed] == points[1] ||
+                    vertex_index_map[p->st] == points[0] && vertex_index_map[p->ed] == points[2] ) {
+                    fout << p->edges.size() + 1 << endl;
+                    float stx = constrained_vertex_position[vertex_index_map[p->ed] + 1].first;
+                    float sty = constrained_vertex_position[vertex_index_map[p->ed] + 1].second;
+                    float edx = constrained_vertex_position[vertex_index_map[p->st] + 1].first;
+                    float edy = constrained_vertex_position[vertex_index_map[p->st] + 1].second;
+                    float dx = (edx - stx) / p->edges.size();
+                    float dy = (edy - sty) / p->edges.size();
+                    for (auto j = p->edges.rbegin(); j != p->edges.rend(); j++) {
+                        fout << j->second << " " << stx << " " << sty << endl;
+                        stx += dx;
+                        sty += dy;
+                    }
+                    fout << p->edges.front().first << " " << stx << " " << sty << endl;
                 }
             }
-            fout << "Vertex: " << patch_vertex.size() << endl;
+            fout << "Internal: " << patch_vertex.size() << endl;
             for (auto v : patch_vertex) {
                 fout << v + 1 << endl;
             }
-            fout << endl;
             patch_number++;
         }
     }
