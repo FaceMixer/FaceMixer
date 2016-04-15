@@ -40,6 +40,7 @@ extern vector<smfparser::Vertex *> mesh_vertex;     // The vertex data that stor
 extern vector<smfparser::Face *> mesh_faces;        // The faces data that stored in memory
 extern map<pair<int, int>, smfparser::W_edge *> mesh_edges;     // The edges data that stored in memory
 extern map<smfparser::Vertex *, GLuint> vertex_index_map;
+extern map<smfparser::Face *, GLuint> face_index_map;          // Mapping face to its index in mesh_faces
 extern vector<GLfloat> render_vertex;     // The vertex data used for rendering
 extern vector<GLuint> render_faces;       // The faces data used for rendering
 extern vector<GLuint> render_edges;       // The edges data used for rendering

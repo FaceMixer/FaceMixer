@@ -143,6 +143,7 @@ void ImportMeshFile() {
                 if (size >= 3) {
                     smfparser::Face *new_face = new smfparser::Face();          // Add new face
                     mesh_faces.push_back(new_face);
+                    face_index_map[new_face] = (GLuint)(mesh_faces.size() - 1);
                     for (int i = 0; i < size; i++) {    // Add all edges around this face
                         smfparser::Vertex *st = mesh_vertex[index[i] - 1];
                         smfparser::Vertex *ed = mesh_vertex[index[(i + 1) % size] - 1];

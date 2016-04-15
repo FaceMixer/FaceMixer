@@ -277,54 +277,103 @@ Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edg
 }
 
 // Output match result to file
-void OutputPathMatchResult(vector<match::Path *> &TmVc) {
+void OutputPathMatchResult(vector<match::Path *> &TmVc, const vector<int> &constrained_vertex,
+                           const map<int, pair<float, float>> &constrained_vertex_position) {
     ofstream fout("mesh/match_result.txt", ofstream::out);
-    vector<int> patch(mesh_vertex.size(), -1);
+    set<pair<int, int>> boundary_edge;
+    vector<bool> boundary_vertex(mesh_vertex.size(), false);
+    vector<int> patch(mesh_faces.size(), -1);
     int patch_number = 1;
 
     for (auto p : TmVc) {       // Print the matched mesh edges
         for (int i = 0; i < p->edges.size(); i++) {
             if (i == 0) {
                 cout << p->edges[i].first << " - " << p->edges[i].second;
-                patch[p->edges[i].first - 1] = 0;
-                patch[p->edges[i].second - 1] = 0;
             } else {
                 cout << " - " << p->edges[i].second;
-                patch[p->edges[i].second - 1] = 0;
             }
+            boundary_vertex[p->edges[i].first - 1] = true;
+            boundary_vertex[p->edges[i].second - 1] = true;
+            boundary_edge.insert(make_pair(p->edges[i].first - 1, p->edges[i].second - 1));
+            boundary_edge.insert(make_pair(p->edges[i].second - 1, p->edges[i].first - 1));
         }
         cout << endl;
     }
 
-    for (int i = 0; i < mesh_vertex.size(); i++) {              // For each vertex, do floodfill if it is not visited
+    for (int i = 0; i < mesh_faces.size(); i++) {              // For each face, do floodfill if it is not visited
         if (patch[i] == -1) {
             queue<int> Q;
-            vector<int> patch_vertex;
-            patch_vertex.clear();
-            Q.push(i);                      // Init first vertex in queue
+            vector<smfparser::Face *> patch_face;
+            set<int> patch_vertex;
+            set<int> end_points;
+            patch_face.clear();
+            Q.push(i);                      // Init first face in queue
             patch[i] = patch_number;
-            patch_vertex.push_back(i);
             while (!Q.empty()) {
-                int v = Q.front();
+                smfparser::Face *face = mesh_faces[Q.front()];
+                patch_face.push_back(face);
                 Q.pop();
-                for (auto it : G[v]) {
-                    if (patch[it.first] == -1) {        // Floodfill
-                        Q.push(it.first);
-                        patch[it.first] = patch_number;     // Update patch number for that vertex
-                        patch_vertex.push_back(it.first);
-                    } else if (patch[it.first] == 0) {      // Find boundary for that patch
-
+                int v1 = vertex_index_map[face->edge->start];
+                int v2 = vertex_index_map[face->edge->left_next->start];
+                int v3 = vertex_index_map[face->edge->left_prev->start];
+                if (boundary_edge.find(make_pair(v1, v2)) == boundary_edge.end()) {
+                    if (mesh_edges.find(make_pair(v2 + 1, v1 + 1)) != mesh_edges.end()) {
+                        int face_index = face_index_map[mesh_edges[make_pair(v2 + 1, v1 + 1)]->left];
+                        if (patch[face_index] == -1) {
+                            Q.push(face_index);
+                            patch[face_index] = patch_number;
+                        }
+                    }
+                }
+                if (boundary_edge.find(make_pair(v2, v3)) == boundary_edge.end()) {
+                    if (mesh_edges.find(make_pair(v3 + 1, v2 + 1)) != mesh_edges.end()) {
+                        int face_index = face_index_map[mesh_edges[make_pair(v3 + 1, v2 + 1)]->left];
+                        if (patch[face_index] == -1) {
+                            Q.push(face_index);
+                            patch[face_index] = patch_number;
+                        }
+                    }
+                }
+                if (boundary_edge.find(make_pair(v3, v1)) == boundary_edge.end()) {
+                    if (mesh_edges.find(make_pair(v1 + 1, v3 + 1)) != mesh_edges.end()) {
+                        int face_index = face_index_map[mesh_edges[make_pair(v1 + 1, v3 + 1)]->left];
+                        if (patch[face_index] == -1) {
+                            Q.push(face_index);
+                            patch[face_index] = patch_number;
+                        }
+                    }
+                }
+                for (auto v : constrained_vertex) {
+                    v = v - 1;
+                    if (v == v1 || v == v2 || v == v3) {
+                        end_points.insert(v);
                     }
                 }
             }
-            fout << patch_vertex.size() << endl;
-            //for (auto v : patch_vertex) {
-            //    fout << v + 1 << endl;
-            //}
+            for (auto f : patch_face) {
+                int v1 = vertex_index_map[f->edge->start];
+                int v2 = vertex_index_map[f->edge->left_next->start];
+                int v3 = vertex_index_map[f->edge->left_prev->start];
+                if (!boundary_vertex[v1]) patch_vertex.insert(v1);
+                if (!boundary_vertex[v2]) patch_vertex.insert(v2);
+                if (!boundary_vertex[v3]) patch_vertex.insert(v3);
+            }
+            fout << "Path: " << endl;
+            for (auto p : TmVc) {
+                if (vertex_index_map[p->st] == end_points[0] && vertex_index_map[p->ed] == end_points[1]) {
+
+                }
+            }
+            fout << "Vertex: " << patch_vertex.size() << endl;
+            for (auto v : patch_vertex) {
+                fout << v + 1 << endl;
+            }
             fout << endl;
             patch_number++;
         }
     }
+
+    //cout << result.size() << endl;
 
     fout.close();
 }

@@ -46,6 +46,7 @@ vector<smfparser::Vertex *> mesh_vertex;    // The vertex mesh data
 vector<smfparser::Face *> mesh_faces;       // The faces mesh data
 map<pair<int, int>, smfparser::W_edge *> mesh_edges;    // The edges mesh data
 map<smfparser::Vertex *, GLuint> vertex_index_map;      // Mapping vertex to its index in mesh_vertex
+map<smfparser::Face *, GLuint> face_index_map;          // Mapping face to its index in mesh_faces
 
 // The data used for rendering
 vector<GLfloat> render_vertex;    // The vertex data used for rendering
@@ -176,7 +177,7 @@ void StartMatching(void) {
     UpdateMeshBufferData();
 
     cout << "Start to output all patches with boundary path to file..." << endl;
-    match::OutputPathMatchResult(TmVc);            // Output match result to file
+    match::OutputPathMatchResult(TmVc, constrained_vertex, constrained_vertex_position);            // Output match result to file
     cout << "Output finished!" << endl;
 }
 

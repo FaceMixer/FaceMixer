@@ -36,6 +36,7 @@ extern vector<smfparser::Vertex *> mesh_vertex;         // The vertex data that 
 extern vector<smfparser::Face *> mesh_faces;            // The faces data that stored in memory
 extern map<pair<int, int>, smfparser::W_edge *> mesh_edges;     // The edges data that stored in memory
 extern map<smfparser::Vertex *, GLuint> vertex_index_map;
+extern map<smfparser::Face *, GLuint> face_index_map;          // Mapping face to its index in mesh_faces
 extern vector<GLfloat> render_vertex;       // The vertex data used for rendering
 extern vector<GLuint> render_faces;         // The faces data used for rendering
 extern vector<GLuint> render_edges;         // The edges data used for rendering
@@ -70,7 +71,8 @@ bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_pos
 Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edge *> &match_edges, vector<bool> &deleted_vertex);
 
 // Output match result to file
-void OutputPathMatchResult(vector<match::Path *> &TmVc);
+void OutputPathMatchResult(vector<match::Path *> &TmVc, const vector<int> &constrained_vertex,
+                           const map<int, pair<float, float>> &constrained_vertex_position);
 
 }  // namespace match
 
