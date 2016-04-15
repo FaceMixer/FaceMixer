@@ -559,7 +559,6 @@ void fileSave(GLUI_Control* control )
     myfile.open(file_url);
     if (myfile.is_open())
     {
-        myfile << "# "<<vertex_num<<" "<<face_num<<"\n";//de
         myfile << "# "<<vertex_num+12<<" "<<face_num+v_boundary_faces.size()<<"\n";
         for(int i=1;i<=vertex_num;i++)
             myfile << "v "<<w_vertices[i].x<<" "<<w_vertices[i].y<<" "<<w_vertices[i].z<<"\n";
@@ -663,10 +662,10 @@ void myGlutMouse(int button, int button_state, int x, int y )
         last_y = y;
         if(fp_cnt<15)
         {
-        cout<<"No."<<fp_cnt<<" (x,y):" << last_x<<","<<last_y<<"...";
+        //cout<<"No."<<fp_cnt<<" (x,y):" << last_x<<","<<last_y<<"...";
         fixedpoint[fp_cnt][0]=(last_x-300.0)*3.0/2800.0;
         fixedpoint[fp_cnt][1]=(last_y-300.0)*3.0/2800.0;
-        cout<<fixedpoint[fp_cnt][0]<<","<<fixedpoint[fp_cnt][1]<<"\n";
+        //cout<<fixedpoint[fp_cnt][0]<<","<<fixedpoint[fp_cnt][1]<<"\n";
         fp_cnt++;
 
         }
@@ -802,11 +801,6 @@ int main(int argc, char* argv[])
     
     new GLUI_Button(glui, "Parameterization", 0, parameterization_cb);
     
-    /***********************Choose Point Panel*******************************/
-    //GLUI_Panel *point_panel = new GLUI_Panel(glui, "Choose Point" );
-
-    //new GLUI_Button(point_panel, "Save Fixed Points", 1, choose_point_cb);
-    //new GLUI_Button(point_panel, "Reset", 0, choose_point_cb);
     
     /***************************File Panel************************/
     GLUI_Panel *file_panel = new GLUI_Panel(glui, "File" );

@@ -186,8 +186,7 @@ void read_proccessed_data(Array2D<float> &Xint, Array2D<float> &Yint)
 }
 
 
-void DemoTry2(int* Ap,int* Ai,double* Ax,double* b,double*x){
-    int n = 4702;
+void DemoTry2(int* Ap,int* Ai,double* Ax,double* b,double*x, int n){
     void *Symbolic, *Numeric;
     
     /* symbolic analysis */
@@ -200,11 +199,6 @@ void DemoTry2(int* Ap,int* Ai,double* Ax,double* b,double*x){
     /* solve system */
     umfpack_di_solve(UMFPACK_A, Ap, Ai, Ax, x, b, Numeric, NULL, NULL);
     umfpack_di_free_numeric(&Numeric);
-    
-    for (int i = 0; i < n; i++)
-    {
-        cout<<"x["<<i<<"] ="<<x[i]<<endl;
-    }
     
 }
 
@@ -299,8 +293,8 @@ void solve_internal_coord(int &internal_num,int vertex_num,stack<W_Vertex*> &bou
     double Xint_array[ResultX.rows()];
     double Yint_array[ResultY.rows()];
     
-    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),X_array,Xint_array);
-    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),Y_array,Yint_array);
+    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),X_array,Xint_array,ResultX.rows());
+    DemoTry2(Sparse_A.outerIndexPtr(),Sparse_A.innerIndexPtr(),Sparse_A.valuePtr(),Y_array,Yint_array,ResultX.rows());
     
     /*getchar();
     read_proccessed_data(Xint,Yint);
