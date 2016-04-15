@@ -95,6 +95,7 @@
 		7CFDFB541CC06D210024325F /* libsuitesparseconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsuitesparseconfig.a; sourceTree = "<group>"; };
 		7CFDFB551CC06D210024325F /* libumfpack.5.7.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libumfpack.5.7.1.a; sourceTree = "<group>"; };
 		7CFDFB561CC06D220024325F /* libumfpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libumfpack.a; sourceTree = "<group>"; };
+		7CFDFB721CC0B3AD0024325F /* embedding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = embedding.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +174,7 @@
 				7CE06EEF1C8A7A830057C347 /* wing_edge_ds.h */,
 				7CB7C38C1C9A8658000DFC4E /* parameterization.h */,
 				7C6205D31C9B868F00016F07 /* jama_lu.h */,
+				7CFDFB721CC0B3AD0024325F /* embedding.h */,
 			);
 			name = codes;
 			path = 464A1;

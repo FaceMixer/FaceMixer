@@ -13,6 +13,7 @@
 #include "wing_edge_ds.h"
 #include <math.h>
 #include "parameterization.h"
+#include "embedding.h"
 
 using namespace std;
 
@@ -194,6 +195,14 @@ void init_fp_list(){
     glEnd();
     glEndList();
 }
+
+
+void embedding_cb(int control)
+{
+    embedding(w_vertices);
+}
+
+
 
 void parameterization_cb(int control)
 {
@@ -429,7 +438,6 @@ void fileOpen(GLUI_Control* control ) //this function also initializes winged-ed
                 
                 while ( getline (myfile,line) )
                 {
-                   // cout << line << '\n';
                     stringstream ss(line);
                     string buffer;
                     ss>>buffer;
@@ -551,6 +559,46 @@ void fileOpen(GLUI_Control* control ) //this function also initializes winged-ed
         }
     }];
 }
+
+void fileSaveEmbedding(GLUI_Control* control )
+{
+    if(!fileexist)
+        return ;
+    ofstream myfile;
+    myfile.open(file_url);
+    if (myfile.is_open())
+    {
+        myfile << "# "<<vertex_num<<" "<<face_num<<"\n";
+        for(int i=1;i<=vertex_num;i++)
+            myfile << "v "<<w_vertices[i].x<<" "<<w_vertices[i].y<<" "<<w_vertices[i].z<<"\n";
+    
+        for(int i=1;i<=face_num;i++)
+        {
+            W_Edge *e0 = w_faces[i].edge;
+            W_Edge *edge = e0;
+            myfile<<"f ";
+            do
+            {
+                if(edge->right==&(w_faces[i]))
+                    edge=edge->right_prev;
+                else
+                    edge=edge->left_prev;
+                
+                if(edge->left == &(w_faces[i]))
+                    myfile<<((long)(edge->end)-(long)&(w_vertices[0]))/sizeof(W_Vertex)<<" ";
+                else
+                    myfile<<((long)(edge->start)-(long)&(w_vertices[0]))/sizeof(W_Vertex)<<" ";
+            }while(edge!=e0);
+            myfile<<"\n";
+        }
+            
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+    
+}
+
+
 void fileSave(GLUI_Control* control )
 {
     if(!fileexist)
@@ -595,7 +643,7 @@ void fileSave(GLUI_Control* control )
         myfile.close();
     }
     else cout << "Unable to open file";
-    
+    cout<<"vertexnumber"<<vertex_num;
 }
 
 
@@ -801,12 +849,17 @@ int main(int argc, char* argv[])
     
     new GLUI_Button(glui, "Parameterization", 0, parameterization_cb);
     
+    /*********************Embedding Button************************************/
+    
+    new GLUI_Button(glui, "Embedding", 0, embedding_cb);
+
     
     /***************************File Panel************************/
     GLUI_Panel *file_panel = new GLUI_Panel(glui, "File" );
     /*Buttons*/
     new GLUI_Button(file_panel, "Open", 0, fileOpen);
     new GLUI_Button(file_panel, "Save", 0, fileSave);
+    new GLUI_Button(file_panel, "SaveEmbedding", 0, fileSaveEmbedding);
     new GLUI_Button(file_panel, "Quit", 0,(GLUI_Update_CB)exit );
     
     /**** Link windows to GLUI, and register idle callback ******/
