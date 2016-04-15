@@ -133,22 +133,22 @@ void StartMatching(void) {
     cout << "Graph init finished!" << endl;
 
     cout << "Start calculate shortest paths..." << endl;
-    shortest_path = match::FindShortestPath(constrained_vertex, match_edges);      // Get all pairs of shortest path
-    sort(shortest_path.begin(), shortest_path.end(), Compare);              // Sort shortest path array
+    shortest_path = match::FindShortestPath(constrained_vertex, match_edges);       // Get all pairs of shortest path
+    sort(shortest_path.begin(), shortest_path.end(), Compare);                      // Sort shortest path array
     cout << "Shortest paths calculation finished!" << endl;
 
     while (!shortest_path.empty()) {                        // Do until no more shortest path
         cout << "Remaining shortest path: " << shortest_path.size() << endl;
         match::Path *path = shortest_path.back();
         shortest_path.pop_back();
-        if (match::CheckLegal(path, constrained_vertex_position)) {                      // If this edge is legal to add to the final set
+        if (match::CheckLegal(path, constrained_vertex_position)) {     // If this edge is legal to add to the final set
             TmVc.push_back(path);
             TPc.push_back(make_pair(vertex_index_map[path->st] + 1, vertex_index_map[path->ed] + 1));
             for (int i = 0; i < path->edges.size(); i++) {              // Delete all interior vertices of the chosen path
                 deleted_vertex[path->edges[i].first - 1] = true;
                 deleted_vertex[path->edges[i].second - 1] = true;
             }
-            for (int i = 0; i < shortest_path.size(); i++ ) {           // Check every remain path to see if need update
+            for (int i = 0; i < shortest_path.size(); i++ ) {           // Check every remain path to see if it need update
                 int flag = false;
                 for (int j = 0; j < shortest_path[i]->edges.size(); j++) {
                     if (deleted_vertex[shortest_path[i]->edges[j].first - 1] && (j != 0) ||
@@ -157,7 +157,7 @@ void StartMatching(void) {
                         break;
                     }
                 }
-                if (flag) {     // If contain deleted vertices, we recompute the shortest path for this pair of vertices
+                if (flag) {     // If contain deleted vertices, recompute the shortest path for this pair of vertices
                     shortest_path[i] = match::RecomputeShortestPath(vertex_index_map[shortest_path[i]->st],
                                                                     vertex_index_map[shortest_path[i]->ed],
                                                                     match_edges, deleted_vertex);
@@ -177,7 +177,7 @@ void StartMatching(void) {
     UpdateMeshBufferData();
 
     cout << "Start to output all patches with boundary path to file..." << endl;
-    match::OutputPathMatchResult(TmVc, constrained_vertex, constrained_vertex_position);            // Output match result to file
+    match::OutputPathMatchResult(TmVc, constrained_vertex, constrained_vertex_position);        // Output match result to file
     cout << "Output finished!" << endl;
 }
 

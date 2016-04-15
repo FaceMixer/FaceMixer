@@ -197,7 +197,7 @@ vector<Path *> FindShortestPath(vector<int> &constrained_vertex, map<pair<int, i
 
 bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_position) {
     if (path->edges.size() == 0) return false;
-    int st_index = vertex_index_map[path->st] + 1;
+    /*int st_index = vertex_index_map[path->st] + 1;            // This part should use sub region test
     int ed_index = vertex_index_map[path->ed] + 1;
     glm::vec2 st = glm::vec2(constrained_vertex_position[st_index].first, constrained_vertex_position[st_index].second);
     glm::vec2 ed = glm::vec2(constrained_vertex_position[ed_index].first, constrained_vertex_position[ed_index].second);
@@ -219,7 +219,7 @@ bool CheckLegal(Path *path, map<int, pair<float, float>> &constrained_vertex_pos
         if (t < 0) {
             //return false;
         }
-    }
+    }*/
     return true;
 }
 
@@ -291,12 +291,12 @@ Path *RecomputeShortestPath(int st, int ed, map<pair<int, int>, smfparser::W_edg
 void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained_vertex,
                            map<int, pair<float, float>> &constrained_vertex_position) {
     ofstream fout("mesh/match_result.txt", ofstream::out);
-    set<pair<int, int>> boundary_edge;
-    vector<bool> boundary_vertex(mesh_vertex.size(), false);
-    vector<int> patch(mesh_faces.size(), -1);
+    set<pair<int, int>> boundary_edge;                          // The edges on boundary
+    vector<bool> boundary_vertex(mesh_vertex.size(), false);    // The vertices on boundary
+    vector<int> patch(mesh_faces.size(), -1);                   // The patch number for each face
     int patch_number = 1;
 
-    for (auto p : TmVc) {       // Print the matched mesh edges
+    for (auto p : TmVc) {                                       // Print the matched mesh edges
         for (int i = 0; i < p->edges.size(); i++) {
             if (i == 0) {
                 cout << p->edges[i].first << " - " << p->edges[i].second;
@@ -311,23 +311,23 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
         cout << endl;
     }
 
-    for (int i = 0; i < mesh_faces.size(); i++) {              // For each face, do floodfill if it is not visited
+    for (int i = 0; i < mesh_faces.size(); i++) {               // For each face, do floodfill if it is not visited
         if (patch[i] == -1) {
             queue<int> Q;
             vector<smfparser::Face *> patch_face;
             set<int> patch_vertex;
             set<int> end_points;
             patch_face.clear();
-            Q.push(i);                      // Init first face in queue
+            Q.push(i);                                          // Init first face in queue
             patch[i] = patch_number;
-            while (!Q.empty()) {
+            while (!Q.empty()) {                                // While queue not empty
                 smfparser::Face *face = mesh_faces[Q.front()];
                 patch_face.push_back(face);
                 Q.pop();
                 int v1 = vertex_index_map[face->edge->start];
                 int v2 = vertex_index_map[face->edge->left_next->start];
                 int v3 = vertex_index_map[face->edge->left_prev->start];
-                if (boundary_edge.find(make_pair(v1, v2)) == boundary_edge.end()) {
+                if (boundary_edge.find(make_pair(v1, v2)) == boundary_edge.end()) {             // Check if edge on the boundary
                     if (mesh_edges.find(make_pair(v2 + 1, v1 + 1)) != mesh_edges.end()) {
                         int face_index = face_index_map[mesh_edges[make_pair(v2 + 1, v1 + 1)]->left];
                         if (patch[face_index] == -1) {
@@ -336,7 +336,7 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
                         }
                     }
                 }
-                if (boundary_edge.find(make_pair(v2, v3)) == boundary_edge.end()) {
+                if (boundary_edge.find(make_pair(v2, v3)) == boundary_edge.end()) {             // Check if edge on the boundary
                     if (mesh_edges.find(make_pair(v3 + 1, v2 + 1)) != mesh_edges.end()) {
                         int face_index = face_index_map[mesh_edges[make_pair(v3 + 1, v2 + 1)]->left];
                         if (patch[face_index] == -1) {
@@ -345,7 +345,7 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
                         }
                     }
                 }
-                if (boundary_edge.find(make_pair(v3, v1)) == boundary_edge.end()) {
+                if (boundary_edge.find(make_pair(v3, v1)) == boundary_edge.end()) {             // Check if edge on the boundary
                     if (mesh_edges.find(make_pair(v1 + 1, v3 + 1)) != mesh_edges.end()) {
                         int face_index = face_index_map[mesh_edges[make_pair(v1 + 1, v3 + 1)]->left];
                         if (patch[face_index] == -1) {
@@ -354,14 +354,14 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
                         }
                     }
                 }
-                for (auto v : constrained_vertex) {
+                for (auto v : constrained_vertex) {             // Get end points for this patch
                     v = v - 1;
                     if (v == v1 || v == v2 || v == v3) {
                         end_points.insert(v);
                     }
                 }
             }
-            for (auto f : patch_face) {
+            for (auto f : patch_face) {                         // Get internal vertices in this patch
                 int v1 = vertex_index_map[f->edge->start];
                 int v2 = vertex_index_map[f->edge->left_next->start];
                 int v3 = vertex_index_map[f->edge->left_prev->start];
@@ -373,7 +373,7 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
             for (auto p : end_points) {
                 points.push_back(p);
             }
-            for (auto p : TmVc) {
+            for (auto p : TmVc) {                               // Get boundary vertices of this patch
                 if (vertex_index_map[p->st] == points[0] && vertex_index_map[p->ed] == points[1] ||
                     vertex_index_map[p->st] == points[1] && vertex_index_map[p->ed] == points[2] ||
                     vertex_index_map[p->st] == points[2] && vertex_index_map[p->ed] == points[0] ) {
@@ -416,8 +416,6 @@ void OutputPathMatchResult(vector<match::Path *> &TmVc, vector<int> &constrained
             patch_number++;
         }
     }
-
-    //cout << result.size() << endl;
 
     fout.close();
 }
