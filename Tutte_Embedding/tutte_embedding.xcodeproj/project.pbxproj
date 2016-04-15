@@ -12,6 +12,33 @@
 		7C686C641C5B0EB000CE0F27 /* mesh_processing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7C686C631C5B0EB000CE0F27 /* mesh_processing.mm */; };
 		7CBF63B41C6DFEA400B60188 /* GLUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBF63B31C6DFEA400B60188 /* GLUI.framework */; };
 		7CBF63B81C6E004C00B60188 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CBF63B71C6E004C00B60188 /* Cocoa.framework */; };
+		7CFDFA181CC04C0A0024325F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFA171CC04C0A0024325F /* Accelerate.framework */; };
+		7CFDFB571CC06D220024325F /* libamd.2.4.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB3D1CC06D210024325F /* libamd.2.4.1.a */; };
+		7CFDFB581CC06D220024325F /* libamd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB3E1CC06D210024325F /* libamd.a */; };
+		7CFDFB591CC06D220024325F /* libbtf.1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB3F1CC06D210024325F /* libbtf.1.2.1.a */; };
+		7CFDFB5A1CC06D220024325F /* libbtf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB401CC06D210024325F /* libbtf.a */; };
+		7CFDFB5B1CC06D220024325F /* libcamd.2.4.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB411CC06D210024325F /* libcamd.2.4.1.a */; };
+		7CFDFB5C1CC06D220024325F /* libcamd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB421CC06D210024325F /* libcamd.a */; };
+		7CFDFB5D1CC06D220024325F /* libccolamd.2.9.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB431CC06D210024325F /* libccolamd.2.9.1.a */; };
+		7CFDFB5E1CC06D220024325F /* libccolamd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB441CC06D210024325F /* libccolamd.a */; };
+		7CFDFB5F1CC06D220024325F /* libcholmod.3.0.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB451CC06D210024325F /* libcholmod.3.0.5.a */; };
+		7CFDFB601CC06D220024325F /* libcholmod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB461CC06D210024325F /* libcholmod.a */; };
+		7CFDFB611CC06D220024325F /* libcolamd.2.9.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB471CC06D210024325F /* libcolamd.2.9.1.a */; };
+		7CFDFB621CC06D220024325F /* libcolamd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB481CC06D210024325F /* libcolamd.a */; };
+		7CFDFB631CC06D220024325F /* libcxsparse.3.1.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB491CC06D210024325F /* libcxsparse.3.1.4.a */; };
+		7CFDFB641CC06D220024325F /* libcxsparse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4A1CC06D210024325F /* libcxsparse.a */; };
+		7CFDFB651CC06D220024325F /* libklu.1.3.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4B1CC06D210024325F /* libklu.1.3.2.a */; };
+		7CFDFB661CC06D220024325F /* libklu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4C1CC06D210024325F /* libklu.a */; };
+		7CFDFB671CC06D220024325F /* libldl.2.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4D1CC06D210024325F /* libldl.2.2.1.a */; };
+		7CFDFB681CC06D220024325F /* libldl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4E1CC06D210024325F /* libldl.a */; };
+		7CFDFB691CC06D220024325F /* librbio.2.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB4F1CC06D210024325F /* librbio.2.2.1.a */; };
+		7CFDFB6A1CC06D220024325F /* librbio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB501CC06D210024325F /* librbio.a */; };
+		7CFDFB6B1CC06D220024325F /* libspqr.2.0.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB511CC06D210024325F /* libspqr.2.0.1.a */; };
+		7CFDFB6C1CC06D220024325F /* libspqr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB521CC06D210024325F /* libspqr.a */; };
+		7CFDFB6D1CC06D220024325F /* libsuitesparseconfig.4.4.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB531CC06D210024325F /* libsuitesparseconfig.4.4.4.a */; };
+		7CFDFB6E1CC06D220024325F /* libsuitesparseconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB541CC06D210024325F /* libsuitesparseconfig.a */; };
+		7CFDFB6F1CC06D220024325F /* libumfpack.5.7.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB551CC06D210024325F /* libumfpack.5.7.1.a */; };
+		7CFDFB701CC06D220024325F /* libumfpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFDFB561CC06D220024325F /* libumfpack.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,7 +58,6 @@
 		7C0F4FC81C5BF9930085C5D5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7C0FB6D01C7412D400D6BFDA /* MacTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacTypes.h; sourceTree = "<group>"; };
 		7C6205D31C9B868F00016F07 /* jama_lu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jama_lu.h; sourceTree = "<group>"; };
-		7C6205D41C9B8D7300016F07 /* MTL-4.0.9555-Linux */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "MTL-4.0.9555-Linux"; path = "464A1/MTL-4.0.9555-Linux"; sourceTree = "<group>"; };
 		7C686C601C5B0EB000CE0F27 /* tutte_embedding */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tutte_embedding; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C686C631C5B0EB000CE0F27 /* mesh_processing.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = mesh_processing.mm; sourceTree = "<group>"; };
 		7CB7C38C1C9A8658000DFC4E /* parameterization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parameterization.h; sourceTree = "<group>"; };
@@ -40,6 +66,35 @@
 		7CBF63B31C6DFEA400B60188 /* GLUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GLUI.framework; sourceTree = "<group>"; };
 		7CBF63B71C6E004C00B60188 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7CE06EEF1C8A7A830057C347 /* wing_edge_ds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wing_edge_ds.h; sourceTree = "<group>"; };
+		7CFDFA141CC04A210024325F /* Eigen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Eigen; path = 464A1/Eigen; sourceTree = "<group>"; };
+		7CFDFA171CC04C0A0024325F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		7CFDFAB71CC061CC0024325F /* 464A1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 464A1; sourceTree = "<group>"; };
+		7CFDFB3D1CC06D210024325F /* libamd.2.4.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libamd.2.4.1.a; sourceTree = "<group>"; };
+		7CFDFB3E1CC06D210024325F /* libamd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libamd.a; sourceTree = "<group>"; };
+		7CFDFB3F1CC06D210024325F /* libbtf.1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbtf.1.2.1.a; sourceTree = "<group>"; };
+		7CFDFB401CC06D210024325F /* libbtf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbtf.a; sourceTree = "<group>"; };
+		7CFDFB411CC06D210024325F /* libcamd.2.4.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcamd.2.4.1.a; sourceTree = "<group>"; };
+		7CFDFB421CC06D210024325F /* libcamd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcamd.a; sourceTree = "<group>"; };
+		7CFDFB431CC06D210024325F /* libccolamd.2.9.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libccolamd.2.9.1.a; sourceTree = "<group>"; };
+		7CFDFB441CC06D210024325F /* libccolamd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libccolamd.a; sourceTree = "<group>"; };
+		7CFDFB451CC06D210024325F /* libcholmod.3.0.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcholmod.3.0.5.a; sourceTree = "<group>"; };
+		7CFDFB461CC06D210024325F /* libcholmod.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcholmod.a; sourceTree = "<group>"; };
+		7CFDFB471CC06D210024325F /* libcolamd.2.9.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcolamd.2.9.1.a; sourceTree = "<group>"; };
+		7CFDFB481CC06D210024325F /* libcolamd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcolamd.a; sourceTree = "<group>"; };
+		7CFDFB491CC06D210024325F /* libcxsparse.3.1.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcxsparse.3.1.4.a; sourceTree = "<group>"; };
+		7CFDFB4A1CC06D210024325F /* libcxsparse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcxsparse.a; sourceTree = "<group>"; };
+		7CFDFB4B1CC06D210024325F /* libklu.1.3.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libklu.1.3.2.a; sourceTree = "<group>"; };
+		7CFDFB4C1CC06D210024325F /* libklu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libklu.a; sourceTree = "<group>"; };
+		7CFDFB4D1CC06D210024325F /* libldl.2.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libldl.2.2.1.a; sourceTree = "<group>"; };
+		7CFDFB4E1CC06D210024325F /* libldl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libldl.a; sourceTree = "<group>"; };
+		7CFDFB4F1CC06D210024325F /* librbio.2.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librbio.2.2.1.a; sourceTree = "<group>"; };
+		7CFDFB501CC06D210024325F /* librbio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = librbio.a; sourceTree = "<group>"; };
+		7CFDFB511CC06D210024325F /* libspqr.2.0.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libspqr.2.0.1.a; sourceTree = "<group>"; };
+		7CFDFB521CC06D210024325F /* libspqr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libspqr.a; sourceTree = "<group>"; };
+		7CFDFB531CC06D210024325F /* libsuitesparseconfig.4.4.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsuitesparseconfig.4.4.4.a; sourceTree = "<group>"; };
+		7CFDFB541CC06D210024325F /* libsuitesparseconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsuitesparseconfig.a; sourceTree = "<group>"; };
+		7CFDFB551CC06D210024325F /* libumfpack.5.7.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libumfpack.5.7.1.a; sourceTree = "<group>"; };
+		7CFDFB561CC06D220024325F /* libumfpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libumfpack.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,10 +102,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CFDFB6B1CC06D220024325F /* libspqr.2.0.1.a in Frameworks */,
+				7CFDFB691CC06D220024325F /* librbio.2.2.1.a in Frameworks */,
+				7CFDFB651CC06D220024325F /* libklu.1.3.2.a in Frameworks */,
+				7CFDFB671CC06D220024325F /* libldl.2.2.1.a in Frameworks */,
+				7CFDFA181CC04C0A0024325F /* Accelerate.framework in Frameworks */,
 				7CBF63B81C6E004C00B60188 /* Cocoa.framework in Frameworks */,
+				7CFDFB5F1CC06D220024325F /* libcholmod.3.0.5.a in Frameworks */,
 				7CBF63B41C6DFEA400B60188 /* GLUI.framework in Frameworks */,
+				7CFDFB701CC06D220024325F /* libumfpack.a in Frameworks */,
+				7CFDFB5B1CC06D220024325F /* libcamd.2.4.1.a in Frameworks */,
+				7CFDFB5A1CC06D220024325F /* libbtf.a in Frameworks */,
+				7CFDFB601CC06D220024325F /* libcholmod.a in Frameworks */,
+				7CFDFB6C1CC06D220024325F /* libspqr.a in Frameworks */,
+				7CFDFB621CC06D220024325F /* libcolamd.a in Frameworks */,
+				7CFDFB5E1CC06D220024325F /* libccolamd.a in Frameworks */,
+				7CFDFB661CC06D220024325F /* libklu.a in Frameworks */,
+				7CFDFB6A1CC06D220024325F /* librbio.a in Frameworks */,
+				7CFDFB6F1CC06D220024325F /* libumfpack.5.7.1.a in Frameworks */,
+				7CFDFB581CC06D220024325F /* libamd.a in Frameworks */,
 				7C0F4FC91C5BF9930085C5D5 /* OpenGL.framework in Frameworks */,
+				7CFDFB5C1CC06D220024325F /* libcamd.a in Frameworks */,
+				7CFDFB681CC06D220024325F /* libldl.a in Frameworks */,
+				7CFDFB631CC06D220024325F /* libcxsparse.3.1.4.a in Frameworks */,
 				7C0F4FC51C5BF9090085C5D5 /* GLUT.framework in Frameworks */,
+				7CFDFB5D1CC06D220024325F /* libccolamd.2.9.1.a in Frameworks */,
+				7CFDFB611CC06D220024325F /* libcolamd.2.9.1.a in Frameworks */,
+				7CFDFB6E1CC06D220024325F /* libsuitesparseconfig.a in Frameworks */,
+				7CFDFB641CC06D220024325F /* libcxsparse.a in Frameworks */,
+				7CFDFB591CC06D220024325F /* libbtf.1.2.1.a in Frameworks */,
+				7CFDFB6D1CC06D220024325F /* libsuitesparseconfig.4.4.4.a in Frameworks */,
+				7CFDFB571CC06D220024325F /* libamd.2.4.1.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,13 +142,16 @@
 		7C686C571C5B0EB000CE0F27 = {
 			isa = PBXGroup;
 			children = (
+				7CFDFB711CC072A20024325F /* lib */,
+				7CFDFAB71CC061CC0024325F /* 464A1 */,
+				7CFDFA171CC04C0A0024325F /* Accelerate.framework */,
 				7CBF63B71C6E004C00B60188 /* Cocoa.framework */,
 				7CBF63B31C6DFEA400B60188 /* GLUI.framework */,
 				7C0F4FC81C5BF9930085C5D5 /* OpenGL.framework */,
 				7C0F4FC41C5BF9090085C5D5 /* GLUT.framework */,
 				7C686C621C5B0EB000CE0F27 /* codes */,
 				7C686C611C5B0EB000CE0F27 /* Products */,
-				7C6205D41C9B8D7300016F07 /* MTL-4.0.9555-Linux */,
+				7CFDFA141CC04A210024325F /* Eigen */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +176,39 @@
 			);
 			name = codes;
 			path = 464A1;
+			sourceTree = "<group>";
+		};
+		7CFDFB711CC072A20024325F /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				7CFDFB3D1CC06D210024325F /* libamd.2.4.1.a */,
+				7CFDFB3E1CC06D210024325F /* libamd.a */,
+				7CFDFB3F1CC06D210024325F /* libbtf.1.2.1.a */,
+				7CFDFB401CC06D210024325F /* libbtf.a */,
+				7CFDFB411CC06D210024325F /* libcamd.2.4.1.a */,
+				7CFDFB421CC06D210024325F /* libcamd.a */,
+				7CFDFB431CC06D210024325F /* libccolamd.2.9.1.a */,
+				7CFDFB441CC06D210024325F /* libccolamd.a */,
+				7CFDFB451CC06D210024325F /* libcholmod.3.0.5.a */,
+				7CFDFB461CC06D210024325F /* libcholmod.a */,
+				7CFDFB471CC06D210024325F /* libcolamd.2.9.1.a */,
+				7CFDFB481CC06D210024325F /* libcolamd.a */,
+				7CFDFB491CC06D210024325F /* libcxsparse.3.1.4.a */,
+				7CFDFB4A1CC06D210024325F /* libcxsparse.a */,
+				7CFDFB4B1CC06D210024325F /* libklu.1.3.2.a */,
+				7CFDFB4C1CC06D210024325F /* libklu.a */,
+				7CFDFB4D1CC06D210024325F /* libldl.2.2.1.a */,
+				7CFDFB4E1CC06D210024325F /* libldl.a */,
+				7CFDFB4F1CC06D210024325F /* librbio.2.2.1.a */,
+				7CFDFB501CC06D210024325F /* librbio.a */,
+				7CFDFB511CC06D210024325F /* libspqr.2.0.1.a */,
+				7CFDFB521CC06D210024325F /* libspqr.a */,
+				7CFDFB531CC06D210024325F /* libsuitesparseconfig.4.4.4.a */,
+				7CFDFB541CC06D210024325F /* libsuitesparseconfig.a */,
+				7CFDFB551CC06D210024325F /* libumfpack.5.7.1.a */,
+				7CFDFB561CC06D220024325F /* libumfpack.a */,
+			);
+			name = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,8 +358,13 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = "\"/usr/local/homebrew/Cellar/suite-sparse/4.4.4/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/lib",
+					"\"/usr/local/homebrew/Cellar/suite-sparse/4.4.4/lib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = tutte_embedding;
@@ -253,8 +376,13 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = "\"/usr/local/homebrew/Cellar/suite-sparse/4.4.4/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/lib",
+					"\"/usr/local/homebrew/Cellar/suite-sparse/4.4.4/lib\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = tutte_embedding;
