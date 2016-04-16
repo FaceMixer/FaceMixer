@@ -44,6 +44,8 @@ GLuint loadTexture(Image* image) {
     return textureId; //Returns the id of the texture
 }
 
+
+// Update object geometry and its texture coordinate
 void updateGeometry(string face3D,string face2D, point4 *points, texture2 *texture){
     string line;
     char line_[90];
@@ -67,6 +69,7 @@ void updateGeometry(string face3D,string face2D, point4 *points, texture2 *textu
     numOfVert = atoi(lineSplit[1]);
     numOfFace = atoi(lineSplit[2]);
     
+    // get the position of the vertices
     for (int i = 0;i < numOfVert;i++){
         getline(input,line);
         strcpy(line_, line.c_str());
@@ -121,13 +124,14 @@ void updateGeometry(string face3D,string face2D, point4 *points, texture2 *textu
         float scale1 = 5.6;
         float scale2 = 5.6;
         
-        float scale1_ = 1.0 / 2;
-        float scale2_ = 1.0;
+        float scale1_ = 1.0 / 2.4;
+        float scale2_ = 1.0 ;
         
         vec4 p1 = vec4(vert[ind1][0]*scale1,vert[ind1][1]*scale1,vert[ind1][2]*scale2,1.0);
         vec4 p2 = vec4(vert[ind2][0]*scale1,vert[ind2][1]*scale1,vert[ind2][2]*scale2,1.0);
         vec4 p3 = vec4(vert[ind3][0]*scale1,vert[ind3][1]*scale1,vert[ind3][2]*scale2,1.0);
         
+        // calculate texture coordinate
         vec4 p1_ = vec4(vert2[ind1_][0]*scale1_,vert2[ind1_][1]*scale1_,vert2[ind1_][2]*scale2_,1.0);
         vec4 p2_ = vec4(vert2[ind2_][0]*scale1_,vert2[ind2_][1]*scale1_,vert2[ind2_][2]*scale2_,1.0);
         vec4 p3_ = vec4(vert2[ind3_][0]*scale1_,vert2[ind3_][1]*scale1_,vert[ind3_][2]*scale2_,1.0);

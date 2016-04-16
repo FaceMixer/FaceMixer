@@ -2,13 +2,14 @@
 #include "include/imageloader.h"
 #include "include/funcNeed.h"
 
-const int NumVertices = 30000;
+const int NumVertices = 30000; //max number of vertices
 point4 points[NumVertices];
 texture2 texture[NumVertices];
 mat4  mvp;
 GLuint  model_view;
 GLuint textureId; //The id of the texture buffer
 GLuint texId;
+
 
 void initRendering(string address) {
     Image* grassimage = loadBMP(address);
@@ -19,8 +20,8 @@ void initRendering(string address) {
 // OpenGL initialization
 void init()
 {
-    updateGeometry("./smf/face3D.smf","./smf/face2D.smf",points, texture);
-
+    updateGeometry("./smf/face3D.smf","./smf/result1.smf",points, texture);
+    
     // Create a vertex array object
     GLuint vao;
     glGenVertexArrays( 1, &vao );
@@ -82,10 +83,10 @@ void keyboard( unsigned char key, int x, int y )
         case 'q': case 'Q':
             exit( EXIT_SUCCESS );
             break;
-        case 'j': mvp *= RotateY(15);break;
-        case 'l': mvp *= RotateY(-15);break;
-        case 'i': mvp *= RotateX(15);break;
-        case 'k': mvp *= RotateX(-15);break;
+        case 'j': mvp *= RotateY(2);break;
+        case 'l': mvp *= RotateY(-2);break;
+        case 'i': mvp *= RotateX(2);break;
+        case 'k': mvp *= RotateX(-2);break;
     }
     
     glutPostRedisplay();
